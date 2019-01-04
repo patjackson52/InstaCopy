@@ -20,7 +20,7 @@ class CarouselItemViewHolder(view: View) : BindingViewHolder<Item>(view) {
 
     private val orgPriceColor by lazy { ContextCompat.getColor(itemView.context, R.color.carouselItemQuantity) }
     private val discountPriceColor by lazy { ContextCompat.getColor(itemView.context, R.color.red) }
-    private var userQuantity = 1
+    private var userQuantity = 0
 
     override fun bindViews(data: Item) {
         if (data.id == Item.PLACE_HOLDER_ID) return
