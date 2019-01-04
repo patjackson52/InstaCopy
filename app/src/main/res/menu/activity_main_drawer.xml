@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@id/instacartFragment"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="AlbumList" />
+
+    </group>
+
+    <item android:title="Flutter">
+        <menu>
+            <item
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>
+
+</menu>
