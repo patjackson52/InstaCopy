@@ -1,4 +1,4 @@
-package io.jackson.instacopy
+package io.jackson.instacopy.store
 
 import android.os.Bundle
 import android.os.Handler
@@ -10,14 +10,17 @@ import androidx.annotation.ColorRes
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.jackson.instacopy.R
+import io.jackson.instacopy.px
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.search.*
 import java.util.*
 
-class InstacartFragment : Fragment() {
+class StoreFragment : Fragment() {
 
     private lateinit var storeAdapter: StoreRecyclerViewAdapter
+    private val loc = IntArray(2)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.content_main, container, false)
@@ -78,7 +81,6 @@ class InstacartFragment : Fragment() {
     }
 
 
-    val loc = IntArray(2)
     fun startFadeY(): Int {
         val loc = IntArray(2)
         activity?.toolbar?.getLocationOnScreen(loc)

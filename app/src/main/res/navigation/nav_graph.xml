@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/instacartFragment"
-        android:name="io.jackson.instacopy.InstacartFragment"
+        android:name="io.jackson.instacopy.store.StoreFragment"
         android:label="InstacartFragment"
         android:layout="@layout/content_main"/>
 </navigation>
