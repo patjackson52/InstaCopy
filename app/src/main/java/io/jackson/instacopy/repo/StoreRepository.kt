@@ -17,10 +17,6 @@ interface StoreRepository {
 data class ItemsResponse(val title: String,
                          val items: List<Item>)
 
-fun ItemsResponse.toViewModel() = ItemCarouselViewModel(
-        title = title,
-        items = items
-)
 
 @JsonClass(generateAdapter = true)
 data class FreeDeliveryResponse(

@@ -3,10 +3,8 @@ package io.jackson.instacopy
 import org.junit.Test
 
 import org.junit.Assert.*
-import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import io.jackson.instacopy.repo.ItemsResponse
-import io.jackson.instacopy.repo.MockRepository
+import io.jackson.instacopy.repo.*
 
 
 /**
@@ -19,10 +17,28 @@ class ExampleUnitTest {
 
     @Test
     fun serializeBrandItems() {
-        val jsonAdapter = moshi.adapter<ItemsResponse>(ItemsResponse::class.java!!)
+        val jsonAdapter = moshi.adapter<ItemsResponse>(ItemsResponse::class.java)
+        val sproutsJsonAdapter = moshi.adapter<StoreInfoResponse>(StoreInfoResponse::class.java)
 
         val json = jsonAdapter.toJson(MockRepository.brandItems(""))
+        println("Brand items")
         println(json)
+
+        val sproutsJson = sproutsJsonAdapter.toJson(MockRepository.storeInfo(""))
+        println("Sprouts Store Info")
+        println(sproutsJson)
+
+        val suggsJson = jsonAdapter.toJson(MockRepository.suggestions(""))
+        println("Suggestions")
+        println(suggsJson)
+
+        val freeDeliveryJson = moshi.adapter<FreeDeliveryResponse>(FreeDeliveryResponse::class.java).toJson(MockRepository.freeDeliveries(""))
+        println("Free deliveries")
+        println(freeDeliveryJson)
+
+        val couponJson = moshi.adapter<CouponResponse>(CouponResponse::class.java).toJson(MockRepository.coupons(""))
+        println("Coupons")
+        println(couponJson)
     }
 
     @Test
@@ -31,6 +47,12 @@ class ExampleUnitTest {
         val brandItemsResponse = jsonAdapter.fromJson(BRAND_ITEMS_JSON)
 
         assertNotNull(brandItemsResponse)
+    }
+
+    @Test
+    fun retrofitRepoFetchesJson() {
+        val response = RetrofitStoreRepository.storeInfo("sprouts")
+        assertNotNull(response)
     }
 }
 

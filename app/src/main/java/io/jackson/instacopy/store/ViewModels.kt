@@ -10,16 +10,6 @@ import java.util.*
 
 data class InstacartViewModel(val storeHeaderViewModel: StoreHeaderViewModel)
 
-fun StoreInfoResponse.toViewModel() = StoreHeaderViewModel(
-        title = title,
-        subTitle = subTitle,
-        imageUrl = imageUrl,
-        bckgrndImageUrl = bckgndImageUrl,
-        withInTime = withInTime,
-        moreInfoString = moreInfoString,
-        searchText = searchText
-)
-
 data class StoreHeaderViewModel(val title: String,
                                 val subTitle: String,
                                 val imageUrl: String,
@@ -28,13 +18,6 @@ data class StoreHeaderViewModel(val title: String,
                                 val moreInfoString: String,
                                 val searchText: String)
 
-fun CouponResponse.toViewModel() = InfoCardViewModel(
-        bckgrndImageUrl = bckgndImageUrl,
-        infoIconImageUrl = infoIconImageUrl,
-        title = title,
-        subTitle = subTitle,
-        tintColor = R.color.infoCardYellow
-)
 
 data class InfoCardViewModel(val bckgrndImageUrl: String,
                              val infoIconImageUrl: String,
@@ -46,13 +29,6 @@ data class FreeDeliveryCardViewModel(val bckgrndImageUrl: String,
                                      val title: String,
                                      val subTitle: String,
                                      val storeIcons: List<StoreIcon>)
-
-fun FreeDeliveryResponse.toViewModel() = FreeDeliveryCardViewModel(
-        bckgrndImageUrl = bckgndImageUrl,
-        title = title,
-        subTitle = subTitle,
-        storeIcons = storeIcons
-)
 
 data class StoreIcon(val iconUrl: String,
                      val name: String)

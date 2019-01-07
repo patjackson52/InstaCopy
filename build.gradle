@@ -20,9 +20,30 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
+        maven { url "https://jitpack.io" }
+
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+
+    retrofitVersion = '2.5.0'
+    okHttpVersion = '3.12.1'
+    moshiKotlinVersion = '1.8.0'
+    coroutineVersion = '1.0.0'
+    glideVersion = '4.8.0'
+    stethoVersion = '1.5.0'
+    ktxVersion = '1.0.0-alpha09'
+
+    networkDependencies = [
+            retrofit              : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofitMoshiConverter: "com.squareup.retrofit2:converter-moshi:${retrofitVersion}",
+            okHttp2               : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            okHttp3Logging        : "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
+            moshiKotlin           : "com.squareup.moshi:moshi-kotlin:${moshiKotlinVersion}"
+    ]
 }
