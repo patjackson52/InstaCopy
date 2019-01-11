@@ -11,24 +11,49 @@ import retrofit2.http.Path
 
 object RetrofitStoreRepository : StoreRepository {
 
-    override fun storeInfo(storeId: String): StoreInfoResponse {
-        return api.storeInfo(storeId).execute().body()!!
+    override fun storeInfo(storeId: String): GatewayResponse<StoreInfoResponse, GenericError> {
+        val response = api.storeInfo(storeId).execute()
+        return if (response.isSuccessful) {
+            GatewayResponse.createSuccess(response.body(), response.code(), response.message())
+        } else {
+            GatewayResponse.createError(GenericError(response.message()), response.code(), response.message())
+        }
     }
 
-    override fun suggestions(storeId: String): ItemsResponse {
-        return api.suggestions(storeId).execute().body()!!
+    override fun suggestions(storeId: String): GatewayResponse<ItemsResponse, GenericError> {
+        val response = api.suggestions(storeId).execute()
+        return if (response.isSuccessful) {
+            GatewayResponse.createSuccess(response.body(), response.code(), response.message())
+        } else {
+            GatewayResponse.createError(GenericError(response.message()), response.code(), response.message())
+        }
     }
 
-    override fun freeDeliveries(storeId: String): FreeDeliveryResponse {
-        return api.freeDelivery(storeId).execute().body()!!
+    override fun freeDeliveries(storeId: String): GatewayResponse<FreeDeliveryResponse, GenericError> {
+        val response = api.freeDelivery(storeId).execute()
+        return if (response.isSuccessful) {
+            GatewayResponse.createSuccess(response.body(), response.code(), response.message())
+        } else {
+            GatewayResponse.createError(GenericError(response.message()), response.code(), response.message())
+        }
     }
 
-    override fun brandItems(storeId: String): ItemsResponse {
-        return api.brandItems(storeId).execute().body()!!
+    override fun brandItems(storeId: String): GatewayResponse<ItemsResponse, GenericError> {
+        val response = api.brandItems(storeId).execute()
+        return if (response.isSuccessful) {
+            GatewayResponse.createSuccess(response.body(), response.code(), response.message())
+        } else {
+            GatewayResponse.createError(GenericError(response.message()), response.code(), response.message())
+        }
     }
 
-    override fun coupons(storeId: String): CouponResponse {
-        return api.coupons(storeId).execute().body()!!
+    override fun coupons(storeId: String): GatewayResponse<CouponResponse, GenericError> {
+        val response = api.coupons(storeId).execute()
+        return if (response.isSuccessful) {
+            GatewayResponse.createSuccess(response.body(), response.code(), response.message())
+        } else {
+            GatewayResponse.createError(GenericError(response.message()), response.code(), response.message())
+        }
     }
 
     private val okClient = OkHttpClient.Builder()

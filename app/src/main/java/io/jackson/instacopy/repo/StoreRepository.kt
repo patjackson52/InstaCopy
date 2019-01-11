@@ -6,11 +6,11 @@ import io.jackson.instacopy.store.ItemCarouselViewModel
 import io.jackson.instacopy.store.StoreIcon
 
 interface StoreRepository {
-    fun storeInfo(storeId: String): StoreInfoResponse
-    fun suggestions(storeId: String): ItemsResponse
-    fun freeDeliveries(storeId: String): FreeDeliveryResponse
-    fun brandItems(storeId: String): ItemsResponse
-    fun coupons(storeId: String): CouponResponse
+    fun storeInfo(storeId: String): GatewayResponse<StoreInfoResponse, GenericError>
+    fun suggestions(storeId: String): GatewayResponse<ItemsResponse, GenericError>
+    fun freeDeliveries(storeId: String): GatewayResponse<FreeDeliveryResponse, GenericError>
+    fun brandItems(storeId: String): GatewayResponse<ItemsResponse, GenericError>
+    fun coupons(storeId: String): GatewayResponse<CouponResponse, GenericError>
 }
 
 @JsonClass(generateAdapter = true)

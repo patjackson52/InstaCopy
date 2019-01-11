@@ -7,22 +7,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import io.jackson.instacopy.R
-import io.jackson.instacopy.boundary.toViewModel
-import io.jackson.instacopy.px
-import io.jackson.instacopy.repo.MockRepository
+import com.beyondeye.reduks.StoreSubscriber
+import io.jackson.instacopy.*
 import io.jackson.instacopy.repo.RetrofitStoreRepository
-import io.jackson.instacopy.repo.testItemCarouselPlaceholder
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.search.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class StoreFragment : Fragment(), CoroutineScope {
+class StoreFragment : Fragment(), CoroutineScope, StoreSubscriber<AppState> {
+
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
 
@@ -42,39 +38,45 @@ class StoreFragment : Fragment(), CoroutineScope {
             adapter = storeAdapter
         }
 
+        appStore.dispatch(NetworkThunks.fetchStoreInfoThunk("sprouts"))
 
-        launch {
-            var storeInfo: StoreHeaderViewModel
-            async {
-                storeInfo = repo.storeInfo("sprouts").toViewModel()
-                storeAdapter.setListData(mutableListOf(repo.storeInfo("").toViewModel(),
-                        repo.coupons("").toViewModel(),
-                        testItemCarouselPlaceholder,
-                        repo.freeDeliveries("").toViewModel(),
-                        testItemCarouselPlaceholder,
-                        testItemCarouselPlaceholder))
-            }
-        }
+        val subscription = appStore.subscribe(StoreSubscriber {
 
-        async {
-            Thread.sleep(2000)
-            storeAdapter.setListData(mutableListOf(MockRepository.storeInfo("").toViewModel(),
-                    repo.coupons("").toViewModel(),
-                    repo.suggestions("").toViewModel(),
-                    repo.freeDeliveries("").toViewModel(),
-                    testItemCarouselPlaceholder,
-                    testItemCarouselPlaceholder))
-        }
+        })
 
-        async {
-            Thread.sleep(5000)
-            storeAdapter.setListData(mutableListOf(MockRepository.storeInfo("").toViewModel(),
-                    repo.coupons("").toViewModel(),
-                    repo.suggestions("").toViewModel(),
-                    repo.freeDeliveries("").toViewModel(),
-                    repo.brandItems("").toViewModel(),
-                    testItemCarouselPlaceholder))
-        }
+//
+//        launch {
+//            var storeInfo: StoreHeaderViewModel
+//            async {
+//                storeInfo = repo.storeInfo("sprouts").toViewModel()
+//                storeAdapter.setListData(mutableListOf(repo.storeInfo("").toViewModel(),
+//                        repo.coupons("").toViewModel(),
+//                        testItemCarouselPlaceholder,
+//                        repo.freeDeliveries("").toViewModel(),
+//                        testItemCarouselPlaceholder,
+//                        testItemCarouselPlaceholder))
+//            }
+//        }
+//
+//        async {
+//            Thread.sleep(2000)
+//            storeAdapter.setListData(mutableListOf(MockRepository.storeInfo("").toViewModel(),
+//                    repo.coupons("").toViewModel(),
+//                    repo.suggestions("").toViewModel(),
+//                    repo.freeDeliveries("").toViewModel(),
+//                    testItemCarouselPlaceholder,
+//                    testItemCarouselPlaceholder))
+//        }
+//
+//        async {
+//            Thread.sleep(5000)
+//            storeAdapter.setListData(mutableListOf(MockRepository.storeInfo("").toViewModel(),
+//                    repo.coupons("").toViewModel(),
+//                    repo.suggestions("").toViewModel(),
+//                    repo.freeDeliveries("").toViewModel(),
+//                    repo.brandItems("").toViewModel(),
+//                    testItemCarouselPlaceholder))
+//        }
 
         rootRecyclerView.addOnScrollListener(
                 object : RecyclerView.OnScrollListener() {
@@ -96,6 +98,10 @@ class StoreFragment : Fragment(), CoroutineScope {
                     }
                 })
 
+    }
+
+    override fun onStateChange() {
+        appStore.state.
     }
 
 
