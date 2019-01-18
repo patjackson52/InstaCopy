@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.jackson.instacopy.*
 import io.jackson.instacopy.store.carousel.FreeDeliveryCardViewHolder
@@ -11,6 +12,7 @@ import io.jackson.instacopy.store.carousel.FreeDeliveryCardViewHolder
 
 class StoreRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var data = mutableListOf<Any>()
+    lateinit var cart: Cart
     private var lastPosition = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -50,8 +52,12 @@ class StoreRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 
 
     fun setListData(data: MutableList<Any>) {
+        val diffResult = DiffUtil.calculateDiff(StoreDiffUtilCallback(data, appStore.state.listData.toMutableList()))
+        diffResult.dispatchUpdatesTo(this)
         this.data = data
-        notifyDataSetChanged()
+//        if (data != this.data) {
+//            notifyDataSetChanged()
+//        }
     }
 
     private fun setAnimation(viewToAnimate: View, position: Int) {

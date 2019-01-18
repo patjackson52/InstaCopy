@@ -7,6 +7,7 @@ import android.text.style.StrikethroughSpan
 import android.view.View
 import androidx.core.content.ContextCompat
 import io.jackson.instacopy.*
+import io.jackson.instacopy.store.BindingPayloadViewHolder
 import io.jackson.instacopy.store.BindingViewHolder
 import io.jackson.instacopy.store.Item
 import kotlinx.android.synthetic.main.item_carousel_item.view.*
@@ -16,14 +17,20 @@ import kotlinx.android.synthetic.main.quantity_picker.view.*
 /**
  * Viewholder for individual item in a horizontal carousel of items
  */
-class CarouselItemViewHolder(view: View) : BindingViewHolder<Item>(view) {
+class CarouselItemViewHolder(view: View) : BindingPayloadViewHolder<Item>(view) {
 
     private val orgPriceColor by lazy { ContextCompat.getColor(itemView.context, R.color.carouselItemQuantity) }
     private val discountPriceColor by lazy { ContextCompat.getColor(itemView.context, R.color.red) }
-    private var userQuantity = 0
 
-    override fun bindViews(data: Item) {
+    override fun bindViews(data: Item, payloads: MutableList<Any>?) {
         if (data.id == Item.PLACE_HOLDER_ID) return
+
+        if (payloads?.find { it is CarouselItemChangePayload } != null) {
+            if ((payloads.find { it is CarouselItemChangePayload } as CarouselItemChangePayload).isQuantityChange) {
+                itemView.txtQuantityPicker.text = data.numInCart.toString()
+                return
+            }
+        }
 
         with(itemView) {
             GlideApp.with(itemView)
@@ -46,40 +53,38 @@ class CarouselItemViewHolder(view: View) : BindingViewHolder<Item>(view) {
             }
             txtName.text = data.name
             txtQuantity.text = data.quantity
+            if (data.numInCart == 1) {
+                btnMinus.setImageResource(R.drawable.ic__trash)
+            } else {
+                btnMinus.setImageResource(R.drawable.ic__minus)
+            }
+
+            itemView.txtQuantityPicker.text = data.numInCart.toString()
+
             btnAdd.setOnClickListener {
-                userQuantity++
-                if (userQuantity == 1) {
-                    btnMinus.setImageResource(R.drawable.ic__trash)
-                } else {
-                    btnMinus.setImageResource(R.drawable.ic__minus)
-                }
-                itemView.txtQuantityPicker.text = userQuantity.toString()
+
+                itemView.txtQuantityPicker.text = data.numInCart.toString()
                 itemView.layout_fade.visibility = View.VISIBLE
                 itemView.layout_quantity_picker.visibility = View.VISIBLE
                 itemView.layout_quantity_picker.requestFocus()
                 btnPlus.setOnClickListener {
-                    userQuantity++
-                    if (userQuantity == 1) {
-                        btnMinus.setImageResource(R.drawable.ic__trash)
-                    } else {
-                        btnMinus.setImageResource(R.drawable.ic__minus)
-                    }
-                    itemView.txtQuantityPicker.text = userQuantity.toString()
+                    appStore.dispatch(Actions.AddToCartAction(data.id))
+
                 }
                 btnMinus.setOnClickListener {
-                    userQuantity--
-                    when (userQuantity) {
+                    appStore.dispatch(Actions.RemoveFromCartAction(data.id))
+                    when (data.numInCart - 1) {
                         0 -> {
                             itemView.layout_quantity_picker.visibility = View.GONE
                             itemView.layout_fade.visibility = View.GONE
                         }
                         1 -> {
                             btnMinus.setImageResource(R.drawable.ic__trash)
-                            itemView.txtQuantityPicker.text = userQuantity.toString()
+                            itemView.txtQuantityPicker.text = (data.numInCart - 1).toString()
                         }
                         else -> {
                             btnMinus.setImageResource(R.drawable.ic__minus)
-                            itemView.txtQuantityPicker.text = userQuantity.toString()
+                            itemView.txtQuantityPicker.text = (data.numInCart - 1).toString()
                         }
                     }
                 }
@@ -93,5 +98,7 @@ class CarouselItemViewHolder(view: View) : BindingViewHolder<Item>(view) {
         }
     }
 }
+
+data class CarouselItemChangePayload(val isQuantityChange: Boolean)
 
 

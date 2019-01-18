@@ -3,12 +3,20 @@ package io.jackson.instacopy.store.carousel
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.jackson.instacopy.store.Item
 import io.jackson.instacopy.R
+import io.jackson.instacopy.store.ItemCarouselDiffUtilCallback
 
 class CarouselItemAdapter : RecyclerView.Adapter<CarouselItemViewHolder>() {
     var data: MutableList<Item> = mutableListOf()
+
+    fun setItems(data: MutableList<Item>) {
+        val diffResult = DiffUtil.calculateDiff(ItemCarouselDiffUtilCallback(this.data, data))
+        diffResult.dispatchUpdatesTo(this)
+        this.data = data
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselItemViewHolder {
         return CarouselItemViewHolder(LayoutInflater.from(parent.context).inflate(viewType, parent, false))
@@ -24,7 +32,11 @@ class CarouselItemAdapter : RecyclerView.Adapter<CarouselItemViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: CarouselItemViewHolder, position: Int) {
-        holder.bindViews(data[position])
+        holder.bindViews(data[position], null)
+    }
+
+    override fun onBindViewHolder(holder: CarouselItemViewHolder, position: Int, payloads: MutableList<Any>) {
+        holder.bindViews(data[position], payloads)
     }
 
     fun runLayoutAnimation(recyclerView: RecyclerView) {

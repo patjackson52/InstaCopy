@@ -1,10 +1,7 @@
 package io.jackson.instacopy.store
 
 import androidx.annotation.ColorRes
-import io.jackson.instacopy.R
-import io.jackson.instacopy.repo.CouponResponse
-import io.jackson.instacopy.repo.FreeDeliveryResponse
-import io.jackson.instacopy.repo.StoreInfoResponse
+
 import java.util.*
 
 
@@ -48,4 +45,21 @@ data class Item(val imageUrl: String,
 
 data class ItemCarouselViewModel(
         val title: String,
-        val items: List<Item>)
+        val items: List<Item>): ListItemViewModel() {
+    override fun areContentsTheSame(other: Any): Boolean {
+        if (other is ItemCarouselViewModel) {
+            items.forEachIndexed { index, item ->
+                if (item != other.items[index]) {
+                    return false
+                }
+            }
+        }
+        return super.areContentsTheSame(other)
+    }
+}
+
+open class ListItemViewModel {
+    open fun areContentsTheSame(other: Any): Boolean {
+        return this.equals(other)
+    }
+}

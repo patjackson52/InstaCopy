@@ -1,10 +1,12 @@
 package io.jackson.instacopy.store
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.beyondeye.reduks.StoreSubscriber
@@ -38,45 +40,25 @@ class StoreFragment : Fragment(), CoroutineScope, StoreSubscriber<AppState> {
             adapter = storeAdapter
         }
 
+        val subscription = appStore.subscribe(this)
+
         appStore.dispatch(NetworkThunks.fetchStoreInfoThunk("sprouts"))
 
-        val subscription = appStore.subscribe(StoreSubscriber {
+        Handler().postDelayed({
+            appStore.dispatch(NetworkThunks.fetchSuggestionsThunk("sprouts"))
+        }, 2000)
 
-        })
+        Handler().postDelayed({
+            appStore.dispatch(NetworkThunks.fetchBrandItems("sprouts"))
+        }, 4000)
 
-//
-//        launch {
-//            var storeInfo: StoreHeaderViewModel
-//            async {
-//                storeInfo = repo.storeInfo("sprouts").toViewModel()
-//                storeAdapter.setListData(mutableListOf(repo.storeInfo("").toViewModel(),
-//                        repo.coupons("").toViewModel(),
-//                        testItemCarouselPlaceholder,
-//                        repo.freeDeliveries("").toViewModel(),
-//                        testItemCarouselPlaceholder,
-//                        testItemCarouselPlaceholder))
-//            }
-//        }
-//
-//        async {
-//            Thread.sleep(2000)
-//            storeAdapter.setListData(mutableListOf(MockRepository.storeInfo("").toViewModel(),
-//                    repo.coupons("").toViewModel(),
-//                    repo.suggestions("").toViewModel(),
-//                    repo.freeDeliveries("").toViewModel(),
-//                    testItemCarouselPlaceholder,
-//                    testItemCarouselPlaceholder))
-//        }
-//
-//        async {
-//            Thread.sleep(5000)
-//            storeAdapter.setListData(mutableListOf(MockRepository.storeInfo("").toViewModel(),
-//                    repo.coupons("").toViewModel(),
-//                    repo.suggestions("").toViewModel(),
-//                    repo.freeDeliveries("").toViewModel(),
-//                    repo.brandItems("").toViewModel(),
-//                    testItemCarouselPlaceholder))
-//        }
+        Handler().postDelayed({
+            appStore.dispatch(NetworkThunks.fetchFreeDeliveries("sprouts"))
+        }, 6000)
+
+        Handler().postDelayed({
+            appStore.dispatch(NetworkThunks.fetchCoupons("sprouts"))
+        }, 8000)
 
         rootRecyclerView.addOnScrollListener(
                 object : RecyclerView.OnScrollListener() {
@@ -101,9 +83,8 @@ class StoreFragment : Fragment(), CoroutineScope, StoreSubscriber<AppState> {
     }
 
     override fun onStateChange() {
-        appStore.state.
+        storeAdapter.setListData(appStore.state.listData.toMutableList())
     }
-
 
     fun startFadeY(): Int {
         val loc = IntArray(2)

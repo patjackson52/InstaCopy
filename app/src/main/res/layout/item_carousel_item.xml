@@ -100,11 +100,11 @@
         android:visibility="gone"
         />
 
-    <include layout="@layout/quantity_picker"
-        app:layout_constraintTop_toTopOf="parent"
+    <include
+        layout="@layout/quantity_picker"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:visibility="visible"
-        android:visibility="gone"
-        />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>
