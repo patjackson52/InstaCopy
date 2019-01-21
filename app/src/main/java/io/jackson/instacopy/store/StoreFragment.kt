@@ -2,6 +2,7 @@ package io.jackson.instacopy.store
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.beyondeye.reduks.StoreSubscriber
 import io.jackson.instacopy.*
 import io.jackson.instacopy.boundary.toViewModels
+import io.jackson.instacopy.middleware.ViewEffectsMiddleware
 import io.jackson.instacopy.repo.RetrofitStoreRepository
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -90,6 +92,7 @@ class StoreFragment : Fragment(), CoroutineScope, StoreSubscriber<AppState> {
         (rootRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         storeAdapter.setListData(appStore.state.listData.toViewModels(appStore.state.cart).toMutableList())
     }
+
 
     fun startFadeY(): Int {
         val loc = IntArray(2)

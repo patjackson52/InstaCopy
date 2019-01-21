@@ -10,6 +10,7 @@ import io.jackson.instacopy.*
 import io.jackson.instacopy.repo.Item
 import io.jackson.instacopy.store.BindingPayloadViewHolder
 import io.jackson.instacopy.store.ItemViewModel
+import io.jackson.instacopy.store.ShowPickerViewEffect
 import kotlinx.android.synthetic.main.item_carousel_item.view.*
 import kotlinx.android.synthetic.main.quantity_picker.view.*
 
@@ -25,15 +26,9 @@ class CarouselItemViewHolder(view: View) : BindingPayloadViewHolder<ItemViewMode
     override fun bindViews(data: ItemViewModel, payloads: MutableList<Any>?) {
         if (data.item.id == Item.PLACE_HOLDER_ID) return
 
-        if (payloads?.find { it is CarouselItemChangePayload } != null) {
-            if ((payloads.find { it is CarouselItemChangePayload } as CarouselItemChangePayload).isQuantityChange) {
-                if (data.numInCart > 0) {
-                    showQuantityPicker(data)
-                } else {
-                    hideQuantityPicker(data)
-                }
-                return
-            }
+        if (payloads?.find { it is ShowPickerViewEffect } != null) {
+            showQuantityPicker()
+            return
         }
 
         with(itemView) {
@@ -74,23 +69,32 @@ class CarouselItemViewHolder(view: View) : BindingPayloadViewHolder<ItemViewMode
 
 
             btnAdd.setOnClickListener {
-                showQuantityPicker(data)
+                appStore.dispatch(Actions.OpenQuantityPickerAction(data.item.id))
             }
+            setQuantityPickerData(data)
         }
     }
 
     private fun hideQuantityPicker(data: ItemViewModel) {
-        showQuantityPicker(data)
         itemView.layout_quantity_picker.visibility = View.GONE
         itemView.layout_fade.visibility = View.GONE
     }
 
-    private fun showQuantityPicker(data: ItemViewModel) {
+    private fun showQuantityPicker() {
+        itemView.layout_fade.visibility = View.VISIBLE
+        itemView.layout_quantity_picker.visibility = View.VISIBLE
+        itemView.layout_quantity_picker.requestFocus()
+        itemView.layout_quantity_picker.setOnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                itemView.layout_quantity_picker.visibility = View.GONE
+                itemView.layout_fade.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun setQuantityPickerData(data: ItemViewModel) {
         with(itemView) {
             itemView.txtQuantityPicker.text = data.numInCart.toString()
-            itemView.layout_fade.visibility = View.VISIBLE
-            itemView.layout_quantity_picker.visibility = View.VISIBLE
-            itemView.layout_quantity_picker.requestFocus()
             btnPlus.setOnClickListener {
                 appStore.dispatch(Actions.AddToCartAction(data.item.id))
             }
@@ -109,12 +113,7 @@ class CarouselItemViewHolder(view: View) : BindingPayloadViewHolder<ItemViewMode
                     }
                 }
             }
-            itemView.layout_quantity_picker.setOnFocusChangeListener { v, hasFocus ->
-                if (!hasFocus) {
-                    itemView.layout_quantity_picker.visibility = View.GONE
-                    itemView.layout_fade.visibility = View.GONE
-                }
-            }
+
         }
     }
 }

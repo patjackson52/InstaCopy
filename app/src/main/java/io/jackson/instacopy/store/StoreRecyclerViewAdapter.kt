@@ -75,6 +75,15 @@ class StoreRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
         this.data = data
     }
 
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+        when (holder) {
+            is CarouselViewHolder -> {
+                holder.detachedFromWindow()
+            }
+        }
+        super.onViewDetachedFromWindow(holder)
+    }
+
     private fun setAnimation(viewToAnimate: View, position: Int) {
         // If the bound view wasn't previously displayed on screen, it's animated
         if (position > lastPosition) {

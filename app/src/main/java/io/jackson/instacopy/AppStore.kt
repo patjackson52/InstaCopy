@@ -3,8 +3,8 @@ package io.jackson.instacopy
 import com.beyondeye.reduks.*
 import com.beyondeye.reduks.middlewares.ThunkMiddleware
 import com.beyondeye.reduks.middlewares.applyMiddleware
+import io.jackson.instacopy.middleware.ViewEffectsMiddleware
 import io.jackson.instacopy.repo.*
-import io.jackson.instacopy.store.ItemCarouselViewModel
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -65,14 +65,8 @@ val reducer = ReducerFn<AppState> { state, action ->
             newListData[4] = action.response
             state.copy(listData = newListData)
         }
-        is Actions.AddToCartAction -> {
-            val items = if (state.cart.items.containsKey(action.itemId)) {
-                state.cart.items.plus(Pair(action.itemId, state.cart.items[action.itemId]!! + 1))
-            } else {
-                state.cart.items.plus(Pair(action.itemId, 1))
-            }
-            state.copy(cart = state.cart.copy(items = items))
-        }
+        is Actions.AddToCartAction -> incrementCartForItem(state, action.itemId)
+        is Actions.OpenQuantityPickerAction -> incrementCartForItem(state, action.itemId)
         is Actions.RemoveFromCartAction -> {
             val items = if (state.cart.items.containsKey(action.itemId) && state.cart.items[action.itemId]!! > 0) {
                 state.cart.items.plus(Pair(action.itemId, state.cart.items[action.itemId]!! - 1))
@@ -86,6 +80,14 @@ val reducer = ReducerFn<AppState> { state, action ->
     }
 }
 
+fun incrementCartForItem(state: AppState, itemId: String): AppState {
+    val items = if (state.cart.items.containsKey(itemId)) {
+        state.cart.items.plus(Pair(itemId, state.cart.items[itemId]!! + 1))
+    } else {
+        state.cart.items.plus(Pair(itemId, 1))
+    }
+    return state.copy(cart = state.cart.copy(items = items))
+}
 
 object NetworkThunks : CoroutineScope {
     override val coroutineContext: CoroutineContext
@@ -163,7 +165,7 @@ object NetworkThunks : CoroutineScope {
     }
 }
 
-val appStore = SimpleStore(AppState.INITIAL_STATE, reducer).applyMiddleware(ThunkMiddleware())
+val appStore = SimpleStore(AppState.INITIAL_STATE, reducer).applyMiddleware(ThunkMiddleware(), ViewEffectsMiddleware)
 
 class Actions : Action {
     data class FetchStoreInfoAction(val storeId: String)
@@ -188,4 +190,6 @@ class Actions : Action {
 
     data class AddToCartAction(val itemId: String)
     data class RemoveFromCartAction(val itemId: String)
+
+    data class OpenQuantityPickerAction(val itemId: String)
 }
