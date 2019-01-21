@@ -4,8 +4,8 @@ import com.beyondeye.reduks.Middleware
 import com.beyondeye.reduks.Store
 import io.jackson.instacopy.Actions
 import io.jackson.instacopy.AppState
-import io.jackson.instacopy.store.ShowPickerViewEffect
-import io.jackson.instacopy.store.ViewEffect
+import io.jackson.instacopy.ShowPickerViewEffect
+import io.jackson.instacopy.ViewEffect
 
 typealias ViewEffectsSubscriber = (ViewEffect) -> Unit
 
@@ -32,9 +32,3 @@ object ViewEffectsMiddleware : Middleware<AppState> {
         viewEffectsSubscribers.forEach { it.invoke(data) }
     }
 }
-
-/*
-interface ViewEffectsSubscriber {
-    fun onViewEffect(viewEffect: ViewEffect)
-}
-        */

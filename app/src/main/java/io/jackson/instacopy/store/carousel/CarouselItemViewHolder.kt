@@ -10,7 +10,7 @@ import io.jackson.instacopy.*
 import io.jackson.instacopy.repo.Item
 import io.jackson.instacopy.store.BindingPayloadViewHolder
 import io.jackson.instacopy.store.ItemViewModel
-import io.jackson.instacopy.store.ShowPickerViewEffect
+import io.jackson.instacopy.ShowPickerViewEffect
 import kotlinx.android.synthetic.main.item_carousel_item.view.*
 import kotlinx.android.synthetic.main.quantity_picker.view.*
 

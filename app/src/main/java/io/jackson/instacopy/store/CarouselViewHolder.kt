@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import io.jackson.instacopy.store.carousel.CarouselItemAdapter
 import kotlinx.android.synthetic.main.item_carousel.view.*
 import androidx.recyclerview.widget.DefaultItemAnimator
+import io.jackson.instacopy.ShowPickerViewEffect
+import io.jackson.instacopy.ViewEffect
 import io.jackson.instacopy.middleware.ViewEffectsMiddleware
 
 
