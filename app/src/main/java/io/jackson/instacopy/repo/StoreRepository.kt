@@ -1,9 +1,9 @@
 package io.jackson.instacopy.repo
 
 import com.squareup.moshi.JsonClass
-import io.jackson.instacopy.store.Item
-import io.jackson.instacopy.store.ItemCarouselViewModel
 import io.jackson.instacopy.store.StoreIcon
+import java.util.*
+
 
 interface StoreRepository {
     fun storeInfo(storeId: String): GatewayResponse<StoreInfoResponse, GenericError>
@@ -13,9 +13,23 @@ interface StoreRepository {
     fun coupons(storeId: String): GatewayResponse<CouponResponse, GenericError>
 }
 
+sealed class ApiResponse
 @JsonClass(generateAdapter = true)
 data class ItemsResponse(val title: String,
-                         val items: List<Item>)
+                         val items: List<Item>): ApiResponse()
+
+data class Item(val imageUrl: String,
+                val discountPrice: String? = null,
+                val priceOrg: String,
+                val discount: String? = null,
+                val name: String,
+                val quantity: String,
+                val id: String = name) {
+    companion object {
+        const val PLACE_HOLDER_ID = "<place_holder>"
+        val PLACE_HOLDER = Item("", null, "", "", "", "", PLACE_HOLDER_ID)
+    }
+}
 
 
 @JsonClass(generateAdapter = true)
@@ -24,7 +38,7 @@ data class FreeDeliveryResponse(
         val subTitle: String,
         val bckgndImageUrl: String,
         val storeIcons: List<StoreIcon>
-)
+): ApiResponse()
 
 @JsonClass(generateAdapter = true)
 data class StoreInfoResponse(
@@ -35,7 +49,7 @@ data class StoreInfoResponse(
         val withInTime: String,
         val moreInfoString: String,
         val searchText: String
-)
+): ApiResponse()
 
 @JsonClass(generateAdapter = true)
 data class CouponResponse(
@@ -43,4 +57,6 @@ data class CouponResponse(
         val subTitle: String,
         val bckgndImageUrl: String,
         val infoIconImageUrl: String
-)
+): ApiResponse()
+
+class NoResponse(): ApiResponse()

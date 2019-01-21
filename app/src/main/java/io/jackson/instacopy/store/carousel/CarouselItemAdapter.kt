@@ -5,14 +5,21 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import io.jackson.instacopy.store.Item
 import io.jackson.instacopy.R
+import io.jackson.instacopy.repo.Item
 import io.jackson.instacopy.store.ItemCarouselDiffUtilCallback
+import io.jackson.instacopy.store.ItemViewModel
+import java.math.BigInteger
+import java.nio.charset.Charset
 
 class CarouselItemAdapter : RecyclerView.Adapter<CarouselItemViewHolder>() {
-    var data: MutableList<Item> = mutableListOf()
+    var data: MutableList<ItemViewModel> = mutableListOf()
 
-    fun setItems(data: MutableList<Item>) {
+    init {
+        setHasStableIds(true)
+    }
+
+    fun setItems(data: MutableList<ItemViewModel>) {
         val diffResult = DiffUtil.calculateDiff(ItemCarouselDiffUtilCallback(this.data, data))
         diffResult.dispatchUpdatesTo(this)
         this.data = data
@@ -24,8 +31,12 @@ class CarouselItemAdapter : RecyclerView.Adapter<CarouselItemViewHolder>() {
 
     override fun getItemCount() = data.size
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()//BigInteger(data[position].item.id.toByteArray(Charset.defaultCharset())).toLong()
+    }
+
     override fun getItemViewType(position: Int): Int {
-        return when (data[position].id) {
+        return when (data[position].item.id) {
             Item.PLACE_HOLDER_ID -> R.layout.item_carousel_placeholder
             else -> R.layout.item_carousel_item
         }
@@ -38,6 +49,7 @@ class CarouselItemAdapter : RecyclerView.Adapter<CarouselItemViewHolder>() {
     override fun onBindViewHolder(holder: CarouselItemViewHolder, position: Int, payloads: MutableList<Any>) {
         holder.bindViews(data[position], payloads)
     }
+
 
     fun runLayoutAnimation(recyclerView: RecyclerView) {
         val context = recyclerView.context

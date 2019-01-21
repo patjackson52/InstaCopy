@@ -1,14 +1,21 @@
 package io.jackson.instacopy.boundary
 
+import io.jackson.instacopy.Cart
 import io.jackson.instacopy.R
-import io.jackson.instacopy.repo.CouponResponse
-import io.jackson.instacopy.repo.FreeDeliveryResponse
-import io.jackson.instacopy.repo.ItemsResponse
-import io.jackson.instacopy.repo.StoreInfoResponse
-import io.jackson.instacopy.store.FreeDeliveryCardViewModel
-import io.jackson.instacopy.store.InfoCardViewModel
-import io.jackson.instacopy.store.ItemCarouselViewModel
-import io.jackson.instacopy.store.StoreHeaderViewModel
+import io.jackson.instacopy.repo.*
+import io.jackson.instacopy.store.*
+
+fun List<ApiResponse>.toViewModels(cart: Cart): List<Any> {
+    return this.map {
+        when (it) {
+            is CouponResponse -> it.toViewModel()
+            is ItemsResponse -> it.toViewModel(cart)
+            is FreeDeliveryResponse -> it.toViewModel()
+            is StoreInfoResponse -> it.toViewModel()
+            is NoResponse -> it.toViewModel()
+        }
+    }
+}
 
 fun CouponResponse.toViewModel() = InfoCardViewModel(
         bckgrndImageUrl = bckgndImageUrl,
@@ -36,7 +43,9 @@ fun StoreInfoResponse.toViewModel() = StoreHeaderViewModel(
         searchText = searchText
 )
 
-fun ItemsResponse.toViewModel() = ItemCarouselViewModel(
+fun ItemsResponse.toViewModel(cart: Cart) = ItemCarouselViewModel(
         title = title,
-        items = items
+        items = items.map { ItemViewModel(cart.numInCart(it.id), it) }
 )
+
+fun NoResponse.toViewModel() = testItemCarouselPlaceholder

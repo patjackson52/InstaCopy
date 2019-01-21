@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.beyondeye.reduks.StoreSubscriber
 import io.jackson.instacopy.*
+import io.jackson.instacopy.boundary.toViewModels
 import io.jackson.instacopy.repo.RetrofitStoreRepository
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -63,19 +65,21 @@ class StoreFragment : Fragment(), CoroutineScope, StoreSubscriber<AppState> {
         rootRecyclerView.addOnScrollListener(
                 object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                        layout_search.getLocationOnScreen(loc)
-                        if (loc[1] < startFadeY()) {
-                            activity?.searchBar?.visibility = View.VISIBLE
-                            val fadePercentage = fadePercentage(loc[1])
-                            activity?.searchBar?.alpha = fadePercentage
-                            layout_search?.visibility = View.VISIBLE
-                            if (loc[1] < endFadeY()) {
-                                layout_search?.visibility = View.GONE
-                            } else {
+                        if (layout_search != null) {
+                            layout_search.getLocationOnScreen(loc)
+                            if (loc[1] < startFadeY()) {
+                                activity?.searchBar?.visibility = View.VISIBLE
+                                val fadePercentage = fadePercentage(loc[1])
+                                activity?.searchBar?.alpha = fadePercentage
                                 layout_search?.visibility = View.VISIBLE
+                                if (loc[1] < endFadeY()) {
+                                    layout_search?.visibility = View.GONE
+                                } else {
+                                    layout_search?.visibility = View.VISIBLE
+                                }
+                            } else {
+                                activity?.searchBar?.visibility = View.GONE
                             }
-                        } else {
-                            activity?.searchBar?.visibility = View.GONE
                         }
                     }
                 })
@@ -83,7 +87,8 @@ class StoreFragment : Fragment(), CoroutineScope, StoreSubscriber<AppState> {
     }
 
     override fun onStateChange() {
-        storeAdapter.setListData(appStore.state.listData.toMutableList())
+        (rootRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        storeAdapter.setListData(appStore.state.listData.toViewModels(appStore.state.cart).toMutableList())
     }
 
     fun startFadeY(): Int {

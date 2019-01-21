@@ -3,22 +3,20 @@ package io.jackson.instacopy
 import com.beyondeye.reduks.*
 import com.beyondeye.reduks.middlewares.ThunkMiddleware
 import com.beyondeye.reduks.middlewares.applyMiddleware
-import io.jackson.instacopy.boundary.toViewModel
 import io.jackson.instacopy.repo.*
 import io.jackson.instacopy.store.ItemCarouselViewModel
-import io.jackson.instacopy.store.StoreHeaderViewModel
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-data class AppState(val listData: MutableList<Any>,
+data class AppState(val listData: MutableList<ApiResponse>,
                     val cart: Cart) {
     companion object {
-        val INITIAL_STATE = AppState(listData = mutableListOf(
-                StoreHeaderViewModel("Loading", "Loading", "", "", "", "", ""),
-                testItemCarouselPlaceholder,
-                testItemCarouselPlaceholder,
-                testItemCarouselPlaceholder,
-                testItemCarouselPlaceholder
+        val INITIAL_STATE = AppState(listData = mutableListOf<ApiResponse>(
+                NoResponse(),
+                NoResponse(),
+                NoResponse(),
+                NoResponse(),
+                NoResponse()
         ),
                 cart = Cart(mapOf()))
     }
@@ -29,33 +27,42 @@ data class AppState(val listData: MutableList<Any>,
  */
 data class Cart(val items: Map<String, Int>) {
     fun contains(itemId: String) = items.contains(itemId)
+
+    fun numInCart(itemId: String): Int {
+        return if (items.containsKey(itemId)) {
+            appStore.applyMiddleware()
+            items[itemId]!!
+        } else {
+            0
+        }
+    }
 }
 
 val reducer = ReducerFn<AppState> { state, action ->
     when (action) {
         is Actions.FetchStoreInfoSuccessAction -> {
             val newListData = state.listData.toMutableList()
-            newListData[0] = action.storeInfoResponse.toViewModel()
+            newListData[0] = action.storeInfoResponse
             state.copy(listData = newListData)
         }
         is Actions.FetchCouponsSuccessAction -> {
             val newListData = state.listData.toMutableList()
-            newListData[1] = action.response.toViewModel()
+            newListData[1] = action.response
             state.copy(listData = newListData)
         }
         is Actions.FetchSuggestionsSuccessAction -> {
             val newListData = state.listData.toMutableList()
-            newListData[2] = action.suggestions.toViewModel()
+            newListData[2] = action.suggestions
             state.copy(listData = newListData)
         }
         is Actions.FetchFreeDeliveriesSuccess -> {
             val newListData = state.listData.toMutableList()
-            newListData[3] = action.response.toViewModel()
+            newListData[3] = action.response
             state.copy(listData = newListData)
         }
         is Actions.FetchBrandItemsSuccessAction -> {
             val newListData = state.listData.toMutableList()
-            newListData[4] = action.response.toViewModel()
+            newListData[4] = action.response
             state.copy(listData = newListData)
         }
         is Actions.AddToCartAction -> {
@@ -64,12 +71,6 @@ val reducer = ReducerFn<AppState> { state, action ->
             } else {
                 state.cart.items.plus(Pair(action.itemId, 1))
             }
-            val carouselItemViewModel = (state.listData[4] as ItemCarouselViewModel)
-            val oldCarouselViewModel = (state.listData[4] as ItemCarouselViewModel).items.find { it.id == action.itemId }!!
-            val newList = carouselItemViewModel.items.toMutableList()
-//            newList[newList.indexOf(oldCarouselViewModel)] = newCarouselViewModel
-
-//            state.listData[4] = carouselItemViewModel.copy(items = newList)
             state.copy(cart = state.cart.copy(items = items))
         }
         is Actions.RemoveFromCartAction -> {

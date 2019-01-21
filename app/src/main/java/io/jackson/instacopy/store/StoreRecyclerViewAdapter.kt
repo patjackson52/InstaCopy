@@ -7,13 +7,18 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.jackson.instacopy.*
+import io.jackson.instacopy.store.carousel.CarouselItemAdapter
 import io.jackson.instacopy.store.carousel.FreeDeliveryCardViewHolder
 
 
 class StoreRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var data = mutableListOf<Any>()
-    lateinit var cart: Cart
     private var lastPosition = -1
+    private var nestedAdapters = mutableMapOf<Int, RecyclerView.Adapter<*>>()
+
+    init {
+        setHasStableIds(true)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
@@ -30,14 +35,24 @@ class StoreRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
         return data.size
     }
 
+    private fun getNestedAdapter(position: Int): RecyclerView.Adapter<*> {
+        return if (nestedAdapters.containsKey(position)) {
+            nestedAdapters[position]!!
+        } else {
+            val newAdapter = CarouselItemAdapter()
+            nestedAdapters[position] = newAdapter
+            newAdapter
+        }
+    }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is HeaderViewHolder -> holder.bindViews(data[position] as StoreHeaderViewModel)
             is InfoCardViewHolder -> holder.bindViews(data[position] as InfoCardViewModel)
-            is CarouselViewHolder -> holder.bindViews(data[position] as ItemCarouselViewModel)
+            is CarouselViewHolder -> holder.bindViews(data[position] as ItemCarouselViewModel, getNestedAdapter(position))
             is FreeDeliveryCardViewHolder -> holder.bindViews(data[position] as FreeDeliveryCardViewModel)
         }
-        setAnimation(holder.itemView, position)
+//        setAnimation(holder.itemView, position)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -50,14 +65,14 @@ class StoreRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
         }
     }
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
 
     fun setListData(data: MutableList<Any>) {
-        val diffResult = DiffUtil.calculateDiff(StoreDiffUtilCallback(data, appStore.state.listData.toMutableList()))
+        val diffResult = DiffUtil.calculateDiff(StoreDiffUtilCallback(data, this.data))
         diffResult.dispatchUpdatesTo(this)
         this.data = data
-//        if (data != this.data) {
-//            notifyDataSetChanged()
-//        }
     }
 
     private fun setAnimation(viewToAnimate: View, position: Int) {

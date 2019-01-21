@@ -128,5 +128,5 @@ object MockRepository : StoreRepository {
 
 val testItemCarouselPlaceholder = ItemCarouselViewModel(
         title = "Based on your cart",
-        items = listOf(Item.PLACE_HOLDER, Item.PLACE_HOLDER, Item.PLACE_HOLDER, Item.PLACE_HOLDER, Item.PLACE_HOLDER, Item.PLACE_HOLDER, Item.PLACE_HOLDER, Item.PLACE_HOLDER)
+        items = listOf(ItemViewModel.PLACE_HOLDER, ItemViewModel.PLACE_HOLDER, ItemViewModel.PLACE_HOLDER, ItemViewModel.PLACE_HOLDER, ItemViewModel.PLACE_HOLDER, ItemViewModel.PLACE_HOLDER, ItemViewModel.PLACE_HOLDER, ItemViewModel.PLACE_HOLDER)
 )

@@ -1,8 +1,8 @@
 package io.jackson.instacopy.store
 
 import androidx.annotation.ColorRes
-
-import java.util.*
+import io.jackson.instacopy.repo.Item
+import io.jackson.instacopy.repo.Item.Companion.PLACE_HOLDER_ID
 
 
 data class InstacartViewModel(val storeHeaderViewModel: StoreHeaderViewModel)
@@ -30,22 +30,17 @@ data class FreeDeliveryCardViewModel(val bckgrndImageUrl: String,
 data class StoreIcon(val iconUrl: String,
                      val name: String)
 
-data class Item(val imageUrl: String,
-                val discountPrice: String? = null,
-                val priceOrg: String,
-                val discount: String? = null,
-                val name: String,
-                val quantity: String,
-                val id: String = UUID.randomUUID().toString()) {
+
+data class ItemViewModel(val numInCart: Int, val item: Item) {
+
     companion object {
-        const val PLACE_HOLDER_ID = "<place_holder>"
-        val PLACE_HOLDER = Item("", null, "", "", "", "", PLACE_HOLDER_ID)
+        val PLACE_HOLDER = ItemViewModel(0,Item("", null, "", "", "", "", PLACE_HOLDER_ID))
     }
 }
 
 data class ItemCarouselViewModel(
         val title: String,
-        val items: List<Item>): ListItemViewModel() {
+        val items: List<ItemViewModel>) : ListItemViewModel() {
     override fun areContentsTheSame(other: Any): Boolean {
         if (other is ItemCarouselViewModel) {
             items.forEachIndexed { index, item ->
