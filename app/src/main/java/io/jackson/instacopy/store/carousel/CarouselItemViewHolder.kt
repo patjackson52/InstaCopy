@@ -52,23 +52,30 @@ class CarouselItemViewHolder(view: View) : BindingPayloadViewHolder<ItemViewMode
             }
             txtName.text = data.item.name
             txtQuantity.text = data.item.quantity
+            btnQuantity.text = data.numInCart.toString()
             when (data.numInCart) {
                 0 -> {
-                    itemView.layout_quantity_picker.visibility = View.GONE
-                    itemView.layout_fade.visibility = View.GONE
+                    btnQuantity.visibility = View.GONE
+                    layout_quantity_picker.visibility = View.GONE
+                    layout_fade.visibility = View.GONE
                 }
                 1 -> {
+                    btnQuantity.visibility = View.VISIBLE
                     btnMinus.setImageResource(R.drawable.ic__trash)
-                    itemView.txtQuantityPicker.text = data.numInCart.toString()
+                    txtQuantityPicker.text = data.numInCart.toString()
                 }
                 else -> {
+                    btnQuantity.visibility = View.VISIBLE
                     btnMinus.setImageResource(R.drawable.ic__minus)
-                    itemView.txtQuantityPicker.text = data.numInCart.toString()
+                    txtQuantityPicker.text = data.numInCart.toString()
                 }
             }
 
 
             btnAdd.setOnClickListener {
+                appStore.dispatch(Actions.OpenQuantityPickerAction(data.item.id))
+            }
+            btnQuantity.setOnClickListener {
                 appStore.dispatch(Actions.OpenQuantityPickerAction(data.item.id))
             }
             setQuantityPickerData(data)

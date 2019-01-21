@@ -13,7 +13,7 @@ class CarouselViewHolder(view: View) : BindingViewHolderWithAdapter<ItemCarousel
 
 
 
-    private fun viewEffectsSucriber(viewEffect: ViewEffect): Unit {
+    private fun viewEffectsSubscriber(viewEffect: ViewEffect): Unit {
         when (viewEffect) {
             is ShowPickerViewEffect ->
                 itemView.carouselRecyclerView.adapter?.notifyItemChanged(getPositionForItem(viewEffect.itemId), viewEffect)
@@ -25,11 +25,11 @@ class CarouselViewHolder(view: View) : BindingViewHolderWithAdapter<ItemCarousel
     }
 
     fun detachedFromWindow() {
-        ViewEffectsMiddleware.unsubscribe(this::viewEffectsSucriber)
+        ViewEffectsMiddleware.unsubscribe(this::viewEffectsSubscriber)
     }
 
     override fun bindViews(data: ItemCarouselViewModel, cachedAdapter: RecyclerView.Adapter<*>?) {
-        ViewEffectsMiddleware.subscribeToViewEffects(this::viewEffectsSucriber)
+        ViewEffectsMiddleware.subscribeToViewEffects(this::viewEffectsSubscriber)
         itemView.txtCarouselTitle.text = data.title
         itemView.carouselRecyclerView.apply {
             val animator = object : DefaultItemAnimator() {

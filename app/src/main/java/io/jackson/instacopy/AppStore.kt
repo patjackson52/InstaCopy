@@ -36,6 +36,18 @@ data class Cart(val items: Map<String, Int>) {
             0
         }
     }
+
+    fun totalNumItems(): Int {
+        val sum = items.values.fold(0) { sum, next ->
+            if (next > 0) {
+                sum + 1
+            } else {
+                sum
+            }
+        }
+        return sum
+    }
+
 }
 
 val reducer = ReducerFn<AppState> { state, action ->

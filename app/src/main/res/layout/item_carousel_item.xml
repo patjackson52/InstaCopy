@@ -92,6 +92,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@color/ic_green" />
 
+    <TextView
+        android:id="@+id/btnQuantity"
+        style="@style/QuantityPickerTextView.WithNumber"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="4dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingBottom="2dp"
+        android:visibility="gone"
+        tools:text="12"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/ic_green" />
+
     <View
         android:id="@+id/layout_fade"
         android:layout_width="match_parent"

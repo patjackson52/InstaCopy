@@ -33,9 +33,10 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
+                android:id="@+id/imgCart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:background="?attr/selectableItemBackground"
                 android:contentDescription="Shopping Cart"
                 android:tint="@color/white"
@@ -43,6 +44,27 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/cart_filled" />
+
+
+
+            <TextView
+                android:id="@+id/btnTopCartQuantity"
+                style="@style/CartQuantityTextView"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingBottom=".5dp"
+                android:paddingEnd=".5dp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="12"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="@id/toolbar"
+                app:layout_constraintTop_toTopOf="@id/toolbar"
+                />
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -65,12 +87,14 @@
             android:layout_marginTop="56dp"
             android:layout_marginEnd="8dp"
             android:background="@color/white"
+            tools:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
-                android:id="@+id/btnSearchBarCart" android:layout_width="wrap_content"
+                android:id="@+id/btnSearchBarCart"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:background="?attr/selectableItemBackground"
@@ -80,6 +104,25 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/cart_filled" />
+
+
+            <TextView
+                android:id="@+id/btnCartQuantity"
+                style="@style/CartQuantityTextView"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingBottom=".5dp"
+                android:paddingEnd=".5dp"
+                android:visibility="gone"
+                tools:text="12"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="@id/searchBar"
+                app:layout_constraintTop_toTopOf="@id/searchBar"
+                />
 
             <ImageButton
                 android:id="@+id/btnSearchBarSideMenu"
@@ -99,10 +142,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
-                app:layout_constrainedWidth="true"
+                android:ellipsize="end"
                 android:maxLines="1"
                 android:text="Search Sprouts Farmers Market"
-                android:ellipsize="end"
+                app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btnSearchBarCart"
                 app:layout_constraintStart_toEndOf="@+id/btnSearchBarSideMenu"
