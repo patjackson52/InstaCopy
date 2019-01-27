@@ -54,7 +54,18 @@ object RetrofitStoreRepository : StoreRepository {
         } else {
             GatewayResponse.createError(GenericError(response.message()), response.code(), response.message())
         }
+
     }
+
+    override fun storeFeed(storeId: String): GatewayResponse<StoreFeedResponse, GenericError> {
+        val response = api.storeFeed(storeId).execute()
+        return if (response.isSuccessful) {
+            GatewayResponse.createSuccess(response.body(), response.code(), response.message())
+        } else {
+            GatewayResponse.createError(GenericError(response.message()), response.code(), response.message())
+        }
+    }
+
 
     private val okClient = OkHttpClient.Builder()
             .addNetworkInterceptor(HttpLoggingInterceptor()
@@ -84,4 +95,7 @@ interface StoreApi {
 
     @GET("/stores/{storeId}/coupons.json")
     fun coupons(@Path("storeId") storeId: String): Call<CouponResponse>
+
+    @GET("/storesV2/{storeId}")
+    fun storeFeed(@Path("storeId") storeId: String): Call<StoreFeedResponse>
 }

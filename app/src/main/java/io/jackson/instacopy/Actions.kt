@@ -1,10 +1,7 @@
 package io.jackson.instacopy
 
 import com.beyondeye.reduks.Action
-import io.jackson.instacopy.repo.CouponResponse
-import io.jackson.instacopy.repo.FreeDeliveryResponse
-import io.jackson.instacopy.repo.ItemsResponse
-import io.jackson.instacopy.repo.StoreInfoResponse
+import io.jackson.instacopy.repo.*
 
 class Actions : Action {
     data class FetchStoreInfoAction(val storeId: String)
@@ -26,6 +23,10 @@ class Actions : Action {
     data class FetchCouponsAction(val storeId: String)
     data class FetchCouponsSuccessAction(val response: CouponResponse)
     data class FetchCouponsFailureAction(val message: String)
+
+    class FetchStoreFeedLoadingAction
+    data class FetchStoreFeedSuccessAction(val response: StoreFeedResponse)
+    data class FetchStoreFeedFailureAction(val message: String)
 
     data class AddToCartAction(val itemId: String)
     data class RemoveFromCartAction(val itemId: String)

@@ -9,6 +9,20 @@ object NetworkThunks : CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
 
+    fun fetchStoreFeed(storeId: String) = ThunkFn<AppState> { dispatcher, state ->
+        launch {
+            val action = withContext(Dispatchers.Default) {
+                val result = RetrofitStoreRepository.storeFeed(storeId)
+                if (result.isSuccessful) {
+                    Actions.FetchStoreFeedSuccessAction(result.response!!)
+                } else {
+                    Actions.FetchStoreFeedFailureAction(result.message!!)
+                }
+            }
+            appStore.dispatch(action)
+        }
+    }
+
     fun fetchStoreInfoThunk(storeId: String) = ThunkFn<AppState> { dispatcher, state ->
         launch {
             val action = withContext(Dispatchers.Default) {

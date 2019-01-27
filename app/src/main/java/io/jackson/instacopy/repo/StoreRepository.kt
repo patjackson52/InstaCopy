@@ -11,6 +11,7 @@ interface StoreRepository {
     fun freeDeliveries(storeId: String): GatewayResponse<FreeDeliveryResponse, GenericError>
     fun brandItems(storeId: String): GatewayResponse<ItemsResponse, GenericError>
     fun coupons(storeId: String): GatewayResponse<CouponResponse, GenericError>
+    fun storeFeed(storeId: String): GatewayResponse<StoreFeedResponse, GenericError>
 }
 
 sealed class ApiResponse
@@ -60,3 +61,25 @@ data class CouponResponse(
 ): ApiResponse()
 
 class NoResponse(): ApiResponse()
+
+@JsonClass(generateAdapter = true)
+data class StoreFeedResponse(
+        val info: StoreInfoResponse,
+        val carousels: Map<String, Carousel>
+
+
+)
+
+@JsonClass(generateAdapter = true)
+data class Carousel(
+    val items: List<Item>,
+    val numItems: Int,
+    val title: String
+)
+
+@JsonClass(generateAdapter = true)
+data class Promos(
+        val coupons: CouponResponse,
+        val freeDelivery: FreeDeliveryResponse
+)
+
