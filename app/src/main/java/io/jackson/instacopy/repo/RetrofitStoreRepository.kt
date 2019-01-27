@@ -1,5 +1,7 @@
 package io.jackson.instacopy.repo
 
+import com.squareup.moshi.Moshi
+import io.jackson.instacopy.RuntimeJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -57,7 +59,7 @@ object RetrofitStoreRepository : StoreRepository {
 
     }
 
-    override fun storeFeed(storeId: String): GatewayResponse<StoreFeedResponse, GenericError> {
+    override fun storeFeed(storeId: String): GatewayResponse<Map<String, FeedType>, GenericError> {
         val response = api.storeFeed(storeId).execute()
         return if (response.isSuccessful) {
             GatewayResponse.createSuccess(response.body(), response.code(), response.message())
@@ -71,9 +73,17 @@ object RetrofitStoreRepository : StoreRepository {
             .addNetworkInterceptor(HttpLoggingInterceptor()
                     .setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
+
+    private val runtimeJsonAdapter = RuntimeJsonAdapterFactory(FeedType::class.java, "type")
+            .registerSubtype(ItemsResponse::class.java, "carousel")
+            .registerSubtype(FreeDeliveryResponse::class.java, "freeDelivery")
+            .registerSubtype(CouponResponse::class.java, "coupon")
+
+    val moshi = Moshi.Builder().add(runtimeJsonAdapter).build()
+
     private val api = Retrofit.Builder()
             .baseUrl("https://jackson-ui-demos.firebaseio.com/")
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .client(okClient)
             .build()
             .create(StoreApi::class.java)
@@ -96,6 +106,15 @@ interface StoreApi {
     @GET("/stores/{storeId}/coupons.json")
     fun coupons(@Path("storeId") storeId: String): Call<CouponResponse>
 
-    @GET("/storesV2/{storeId}")
-    fun storeFeed(@Path("storeId") storeId: String): Call<StoreFeedResponse>
+    @GET("/storesv2/{storeId}/feed.json")
+    fun storeFeed(@Path("storeId") storeId: String): Call<Map<String, FeedType>>
+
+    @GET("/storesv2/{storeId}/info.json")
+    fun storeInfoV2(@Path("storeId") storeId: String): Call<StoreInfoResponse>
+
+    @GET("/storesv2/{storeId}/promos/freeDelivery.json")
+    fun freeDeliveryV2(@Path("storeId") storeId: String): Call<FreeDeliveryResponse>
+
+    @GET("/storesv2/{storeId}/promos/coupons.json")
+    fun couponsV2(@Path("storeId") storeId: String): Call<CouponResponse>
 }

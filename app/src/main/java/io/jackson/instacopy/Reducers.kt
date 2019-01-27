@@ -5,9 +5,7 @@ import com.beyondeye.reduks.ReducerFn
 val reducer = ReducerFn<AppState> { state, action ->
     when (action) {
         is Actions.FetchStoreInfoSuccessAction -> {
-            val newListData = state.listData.toMutableList()
-            newListData[0] = action.storeInfoResponse
-            state.copy(listData = newListData)
+            state.copy(storeInfoResponse = action.storeInfoResponse)
         }
         is Actions.FetchCouponsSuccessAction -> {
             val newListData = state.listData.toMutableList()
@@ -28,6 +26,9 @@ val reducer = ReducerFn<AppState> { state, action ->
             val newListData = state.listData.toMutableList()
             newListData[4] = action.response
             state.copy(listData = newListData)
+        }
+        is Actions.FetchStoreFeedSuccessAction -> {
+            state.copy(listData = action.response.values.toList())
         }
         is Actions.AddToCartAction -> incrementCartForItem(state, action.itemId)
         is Actions.OpenQuantityPickerAction -> incrementCartForItem(state, action.itemId)

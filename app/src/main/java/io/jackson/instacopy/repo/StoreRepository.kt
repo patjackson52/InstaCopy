@@ -2,7 +2,6 @@ package io.jackson.instacopy.repo
 
 import com.squareup.moshi.JsonClass
 import io.jackson.instacopy.store.StoreIcon
-import java.util.*
 
 
 interface StoreRepository {
@@ -11,13 +10,13 @@ interface StoreRepository {
     fun freeDeliveries(storeId: String): GatewayResponse<FreeDeliveryResponse, GenericError>
     fun brandItems(storeId: String): GatewayResponse<ItemsResponse, GenericError>
     fun coupons(storeId: String): GatewayResponse<CouponResponse, GenericError>
-    fun storeFeed(storeId: String): GatewayResponse<StoreFeedResponse, GenericError>
+    fun storeFeed(storeId: String): GatewayResponse<Map<String, FeedType>, GenericError>
 }
 
-sealed class ApiResponse
+sealed class FeedType
 @JsonClass(generateAdapter = true)
 data class ItemsResponse(val title: String,
-                         val items: List<Item>): ApiResponse()
+                         val items: List<Item>): FeedType()
 
 data class Item(val imageUrl: String,
                 val discountPrice: String? = null,
@@ -39,7 +38,7 @@ data class FreeDeliveryResponse(
         val subTitle: String,
         val bckgndImageUrl: String,
         val storeIcons: List<StoreIcon>
-): ApiResponse()
+): FeedType()
 
 @JsonClass(generateAdapter = true)
 data class StoreInfoResponse(
@@ -50,7 +49,11 @@ data class StoreInfoResponse(
         val withInTime: String,
         val moreInfoString: String,
         val searchText: String
-): ApiResponse()
+) {
+    companion object {
+        val LOADING = StoreInfoResponse("","","","","","", "")
+    }
+}
 
 @JsonClass(generateAdapter = true)
 data class CouponResponse(
@@ -58,24 +61,27 @@ data class CouponResponse(
         val subTitle: String,
         val bckgndImageUrl: String,
         val infoIconImageUrl: String
-): ApiResponse()
+): FeedType()
 
-class NoResponse(): ApiResponse()
+class NoResponse(): FeedType()
 
-@JsonClass(generateAdapter = true)
-data class StoreFeedResponse(
-        val info: StoreInfoResponse,
-        val carousels: Map<String, Carousel>
-
-
-)
+//@JsonClass(generateAdapter = true)
+//data class StoreFeedResponse(
+//        val items: Map<String, Any>
+//):ApiResponse()
 
 @JsonClass(generateAdapter = true)
 data class Carousel(
     val items: List<Item>,
     val numItems: Int,
     val title: String
-)
+) {
+    companion object {
+        val LOADING = Carousel(items = listOf(),
+                numItems = -1,
+                title = "")
+    }
+}
 
 @JsonClass(generateAdapter = true)
 data class Promos(

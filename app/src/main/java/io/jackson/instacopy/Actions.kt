@@ -25,7 +25,7 @@ class Actions : Action {
     data class FetchCouponsFailureAction(val message: String)
 
     class FetchStoreFeedLoadingAction
-    data class FetchStoreFeedSuccessAction(val response: StoreFeedResponse)
+    data class FetchStoreFeedSuccessAction(val response: Map<String, FeedType>)
     data class FetchStoreFeedFailureAction(val message: String)
 
     data class AddToCartAction(val itemId: String)

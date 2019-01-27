@@ -52,25 +52,10 @@ class StoreFragment : Fragment(), CoroutineScope, StoreSubscriber<AppState> {
 
         subscription = appStore.subscribe(this)
 
-        appStore.dispatch(NetworkThunks.fetchStoreInfoThunk("sprouts"))
-
-        Handler().postDelayed({
-            appStore.dispatch(NetworkThunks.fetchSuggestionsThunk("sprouts"))
-        }, 2000)
-
-        Handler().postDelayed({
-            appStore.dispatch(NetworkThunks.fetchBrandItems("sprouts"))
-        }, 4000)
-
-        Handler().postDelayed({
-            appStore.dispatch(NetworkThunks.fetchFreeDeliveries("sprouts"))
-        }, 6000)
-
-        Handler().postDelayed({
-            appStore.dispatch(NetworkThunks.fetchCoupons("sprouts"))
-        }, 8000)
+        appStore.dispatch(NetworkThunks.fetchStoreFeed("sprouts"))
 
         (rootRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        /*
         rootRecyclerView.addOnScrollListener(
                 object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -92,6 +77,7 @@ class StoreFragment : Fragment(), CoroutineScope, StoreSubscriber<AppState> {
                         }
                     }
                 })
+                */
 
     }
 
