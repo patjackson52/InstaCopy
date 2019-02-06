@@ -14,7 +14,7 @@ import retrofit2.http.Path
 object RetrofitStoreRepository : StoreRepository {
 
     override fun storeInfo(storeId: String): GatewayResponse<StoreInfoResponse, GenericError> {
-        val response = api.storeInfo(storeId).execute()
+        val response = api.storeInfoV2(storeId).execute()
         return if (response.isSuccessful) {
             GatewayResponse.createSuccess(response.body(), response.code(), response.message())
         } else {
@@ -53,20 +53,6 @@ object RetrofitStoreRepository : StoreRepository {
 }
 
 interface StoreApi {
-    @GET("/stores/{storeId}.json")
-    fun storeInfo(@Path("storeId") storeId: String): Call<StoreInfoResponse>
-
-    @GET("/stores/{storeId}/suggestions.json")
-    fun suggestions(@Path("storeId") storeId: String): Call<ItemsResponse>
-
-    @GET("/stores/{storeId}/brand.json")
-    fun brandItems(@Path("storeId") storeId: String): Call<ItemsResponse>
-
-    @GET("/stores/{storeId}/freeDelivery.json")
-    fun freeDelivery(@Path("storeId") storeId: String): Call<FreeDeliveryResponse>
-
-    @GET("/stores/{storeId}/coupons.json")
-    fun coupons(@Path("storeId") storeId: String): Call<CouponResponse>
 
     @GET("/storesv2/{storeId}/feed.json")
     fun storeFeed(@Path("storeId") storeId: String): Call<Map<String, FeedType>>
@@ -74,9 +60,4 @@ interface StoreApi {
     @GET("/storesv2/{storeId}/info.json")
     fun storeInfoV2(@Path("storeId") storeId: String): Call<StoreInfoResponse>
 
-    @GET("/storesv2/{storeId}/promos/freeDelivery.json")
-    fun freeDeliveryV2(@Path("storeId") storeId: String): Call<FreeDeliveryResponse>
-
-    @GET("/storesv2/{storeId}/promos/coupons.json")
-    fun couponsV2(@Path("storeId") storeId: String): Call<CouponResponse>
 }
