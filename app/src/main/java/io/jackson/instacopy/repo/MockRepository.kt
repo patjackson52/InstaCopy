@@ -2,6 +2,7 @@ package io.jackson.instacopy.repo
 
 import io.jackson.instacopy.store.*
 
+/*
 object MockRepository : StoreRepository {
 
     override fun storeInfo(storeId: String) = StoreInfoResponse(
@@ -122,9 +123,17 @@ object MockRepository : StoreRepository {
             infoIconImageUrl = "https://firebasestorage.googleapis.com/v0/b/jackson-ui-demos.appspot.com/o/coupons-icon@2x.png?alt=media"
     )
 }
+*/
 
 
 val testItemCarouselPlaceholder = ItemCarouselViewModel(
         title = "Based on your cart",
-        items = listOf(Item.PLACE_HOLDER, Item.PLACE_HOLDER, Item.PLACE_HOLDER, Item.PLACE_HOLDER, Item.PLACE_HOLDER, Item.PLACE_HOLDER, Item.PLACE_HOLDER, Item.PLACE_HOLDER)
+        items = listOf(ItemViewModel.PLACE_HOLDER,
+                ItemViewModel.PLACE_HOLDER,
+                ItemViewModel.PLACE_HOLDER,
+                ItemViewModel.PLACE_HOLDER,
+                ItemViewModel.PLACE_HOLDER,
+                ItemViewModel.PLACE_HOLDER,
+                ItemViewModel.PLACE_HOLDER,
+                ItemViewModel.PLACE_HOLDER)
 )
