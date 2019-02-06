@@ -4,8 +4,6 @@ import android.graphics.Rect
 import android.os.Bundle
 import androidx.core.view.GravityCompat
 import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import androidx.navigation.Navigation
@@ -28,11 +26,10 @@ class MainActivity : AppCompatActivity() {
         scrimLayout.setOnInsetsCallback {
             rootContent.setPadding(0, -it.top, 0, 0)
         }
-//        setSupportActionBar(toolbar)
-//        val toggle = ActionBarDrawerToggle(
-//                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-//        drawer_layout.addDrawerListener(toggle)
-//        toggle.syncState()
+
+        btn_drawer.setOnClickListener {
+            drawer_layout.openDrawer(GravityCompat.START)
+        }
 
         val navController = findNavController(R.id.nav_host_fragment)
         nav_view.setNavigationItemSelectedListener { menuItem ->
@@ -41,7 +38,6 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-//        setupActionBarWithNavController(navController, drawer_layout)
         NavigationUI.setupWithNavController(nav_view, navController)
     }
 
@@ -68,32 +64,4 @@ class MainActivity : AppCompatActivity() {
             super.onBackPressed()
         }
     }
-
-
-//    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-//        // Handle navigation view item clicks here.
-//        when (item.itemId) {
-//            R.id.nav_camera -> {
-//                // Handle the camera action
-//            }
-//            R.id.nav_gallery -> {
-//
-//            }
-//            R.id.nav_slideshow -> {
-//
-//            }
-//            R.id.nav_manage -> {
-//
-//            }
-//            R.id.nav_share -> {
-//
-//            }
-//            R.id.nav_send -> {
-//
-//            }
-//        }
-//
-//        drawer_layout.closeDrawer(GravityCompat.START)
-//        return true
-//    }
 }
