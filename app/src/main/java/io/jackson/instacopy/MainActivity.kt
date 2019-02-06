@@ -19,6 +19,7 @@ class MyAppGlideModule : AppGlideModule()
 
 class MainActivity : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN.or(View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
@@ -27,9 +28,8 @@ class MainActivity : AppCompatActivity() {
             rootContent.setPadding(0, -it.top, 0, 0)
         }
 
-        btn_drawer.setOnClickListener {
-            drawer_layout.openDrawer(GravityCompat.START)
-        }
+        btn_drawer.setOnClickListener(::drawerToggleClickListener)
+        btnSearchBarSideMenu.setOnClickListener(::drawerToggleClickListener)
 
         val navController = findNavController(R.id.nav_host_fragment)
         nav_view.setNavigationItemSelectedListener { menuItem ->
@@ -39,6 +39,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         NavigationUI.setupWithNavController(nav_view, navController)
+    }
+
+    private fun drawerToggleClickListener(view: View): Unit {
+        drawer_layout.openDrawer(GravityCompat.START)
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
