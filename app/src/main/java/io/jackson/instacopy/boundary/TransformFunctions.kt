@@ -5,15 +5,15 @@ import io.jackson.instacopy.R
 import io.jackson.instacopy.repo.*
 import io.jackson.instacopy.store.*
 
-fun List<FeedType>.toViewModels(cart: Cart): List<Any> {
-    return this.map {
+fun List<FeedType>.toViewModels(cart: Cart, loadingStoreInfo: StoreInfoResponse): List<Any> {
+    return listOf(loadingStoreInfo.toViewModel()).plus(this.map {
         when (it) {
             is CouponResponse -> it.toViewModel()
             is ItemsResponse -> it.toViewModel(cart)
             is FreeDeliveryResponse -> it.toViewModel()
             is NoResponse -> it.toViewModel()
         }
-    }
+    })
 }
 
 fun CouponResponse.toViewModel() = InfoCardViewModel(

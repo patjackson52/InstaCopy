@@ -6,11 +6,11 @@ import io.jackson.instacopy.store.StoreIcon
 
 interface StoreRepository {
     fun storeInfo(storeId: String): GatewayResponse<StoreInfoResponse, GenericError>
+    fun storeFeed(storeId: String): GatewayResponse<Map<String, FeedType>, GenericError>
     fun suggestions(storeId: String): GatewayResponse<ItemsResponse, GenericError>
     fun freeDeliveries(storeId: String): GatewayResponse<FreeDeliveryResponse, GenericError>
     fun brandItems(storeId: String): GatewayResponse<ItemsResponse, GenericError>
     fun coupons(storeId: String): GatewayResponse<CouponResponse, GenericError>
-    fun storeFeed(storeId: String): GatewayResponse<Map<String, FeedType>, GenericError>
 }
 
 sealed class FeedType

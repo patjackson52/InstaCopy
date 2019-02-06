@@ -3,7 +3,7 @@ package io.jackson.instacopy
 import com.beyondeye.reduks.Action
 import io.jackson.instacopy.repo.*
 
-class Actions : Action {
+sealed class Actions : Action {
     data class FetchStoreInfoAction(val storeId: String)
     data class FetchStoreInfoSuccessAction(val storeInfoResponse: StoreInfoResponse)
     data class FetchStoreInfoFailureAction(val message: String)

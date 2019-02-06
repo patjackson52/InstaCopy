@@ -1,15 +1,10 @@
 package io.jackson.instacopy.store
 
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
-import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -17,12 +12,8 @@ import com.beyondeye.reduks.StoreSubscriber
 import com.beyondeye.reduks.StoreSubscription
 import io.jackson.instacopy.*
 import io.jackson.instacopy.boundary.toViewModels
-import io.jackson.instacopy.middleware.ViewEffectsMiddleware
-import io.jackson.instacopy.repo.RetrofitStoreRepository
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.app_bar_main.view.*
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.item_carousel_item.*
 import kotlinx.android.synthetic.main.search.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +26,6 @@ class StoreFragment : Fragment(), CoroutineScope, StoreSubscriber<AppState> {
 
     private lateinit var storeAdapter: StoreRecyclerViewAdapter
     private val loc = IntArray(2)
-    private val repo = RetrofitStoreRepository
     private var subscription: StoreSubscription? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -52,10 +42,9 @@ class StoreFragment : Fragment(), CoroutineScope, StoreSubscriber<AppState> {
 
         subscription = appStore.subscribe(this)
 
-        appStore.dispatch(NetworkThunks.fetchStoreFeed("sprouts"))
+        appStore.dispatch(NetworkThunks.fetchStoreInfoAndFeed("sprouts"))
 
         (rootRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-        /*
         rootRecyclerView.addOnScrollListener(
                 object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -77,7 +66,6 @@ class StoreFragment : Fragment(), CoroutineScope, StoreSubscriber<AppState> {
                         }
                     }
                 })
-                */
 
     }
 
@@ -88,15 +76,17 @@ class StoreFragment : Fragment(), CoroutineScope, StoreSubscriber<AppState> {
     }
 
     override fun onStateChange() {
-        storeAdapter.setListData(appStore.state.listData.toViewModels(appStore.state.cart).toMutableList())
-        if (appStore.state.cart.totalNumItems() > 0) {
-            activity?.btnCartQuantity!!.visibility = View.VISIBLE
-            activity?.btnCartQuantity!!.text = appStore.state.cart.totalNumItems().toString()
-            activity?.btnTopCartQuantity!!.visibility = View.VISIBLE
-            activity?.btnTopCartQuantity!!.text = appStore.state.cart.totalNumItems().toString()
-        } else {
-            activity?.btnCartQuantity!!.visibility = View.GONE
-            activity?.btnTopCartQuantity!!.visibility = View.GONE
+        activity?.runOnUiThread {
+            storeAdapter.setListData(appStore.state.listData.toViewModels(appStore.state.cart, appStore.state.storeInfoResponse).toMutableList())
+            if (appStore.state.cart.totalNumItems() > 0) {
+                activity?.btnCartQuantity!!.visibility = View.VISIBLE
+                activity?.btnCartQuantity!!.text = appStore.state.cart.totalNumItems().toString()
+                activity?.btnTopCartQuantity!!.visibility = View.VISIBLE
+                activity?.btnTopCartQuantity!!.text = appStore.state.cart.totalNumItems().toString()
+            } else {
+                activity?.btnCartQuantity!!.visibility = View.GONE
+                activity?.btnTopCartQuantity!!.visibility = View.GONE
+            }
         }
     }
 

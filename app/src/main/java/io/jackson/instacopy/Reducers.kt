@@ -28,7 +28,12 @@ val reducer = ReducerFn<AppState> { state, action ->
             state.copy(listData = newListData)
         }
         is Actions.FetchStoreFeedSuccessAction -> {
-            state.copy(listData = action.response.values.toList())
+            state.copy(listData = action.response.values.toList(),
+                    loadingStoreFeed = false)
+        }
+        is Actions.FetchStoreInfoSuccessAction -> {
+            state.copy(storeInfoResponse = action.storeInfoResponse,
+                    loadingStoreInfo = true)
         }
         is Actions.AddToCartAction -> incrementCartForItem(state, action.itemId)
         is Actions.OpenQuantityPickerAction -> incrementCartForItem(state, action.itemId)

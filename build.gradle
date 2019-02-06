@@ -37,7 +37,7 @@ ext {
     coroutineVersion = '1.0.0'
     glideVersion = '4.8.0'
     stethoVersion = '1.5.0'
-    ktxVersion = '1.0.0-alpha09'
+    ktxVersion = '1.0.0-beta01'
 
     networkDependencies = [
             retrofit              : "com.squareup.retrofit2:retrofit:${retrofitVersion}",

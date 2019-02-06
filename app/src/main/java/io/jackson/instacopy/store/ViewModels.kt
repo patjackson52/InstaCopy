@@ -13,7 +13,11 @@ data class StoreHeaderViewModel(val title: String,
                                 val bckgrndImageUrl: String,
                                 val withInTime: String,
                                 val moreInfoString: String,
-                                val searchText: String)
+                                val searchText: String) {
+    companion object {
+        val PLACE_HOLDER = StoreHeaderViewModel("", "", "", "", "", "", "")
+    }
+}
 
 
 data class InfoCardViewModel(val bckgrndImageUrl: String,

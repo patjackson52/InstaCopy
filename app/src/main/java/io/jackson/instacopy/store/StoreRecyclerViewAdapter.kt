@@ -12,7 +12,7 @@ import io.jackson.instacopy.store.carousel.FreeDeliveryCardViewHolder
 
 
 class StoreRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var data = mutableListOf<Any>()
+    private var data = mutableListOf<Any>()
     private var lastPosition = -1
     private var nestedAdapters = mutableMapOf<Int, RecyclerView.Adapter<*>>()
 
