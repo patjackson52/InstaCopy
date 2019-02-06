@@ -23,10 +23,8 @@ data class Item(val imageUrl: String,
                 val id: String = name) {
     companion object {
         const val PLACE_HOLDER_ID = "<place_holder>"
-        val PLACE_HOLDER = Item("", null, "", "", "", "", PLACE_HOLDER_ID)
     }
 }
-
 
 @JsonClass(generateAdapter = true)
 data class FreeDeliveryResponse(
@@ -59,29 +57,6 @@ data class CouponResponse(
         val infoIconImageUrl: String
 ): FeedType()
 
-class NoResponse(): FeedType()
+class NoResponse : FeedType()
 
-//@JsonClass(generateAdapter = true)
-//data class StoreFeedResponse(
-//        val items: Map<String, Any>
-//):ApiResponse()
-
-@JsonClass(generateAdapter = true)
-data class Carousel(
-    val items: List<Item>,
-    val numItems: Int,
-    val title: String
-) {
-    companion object {
-        val LOADING = Carousel(items = listOf(),
-                numItems = -1,
-                title = "")
-    }
-}
-
-@JsonClass(generateAdapter = true)
-data class Promos(
-        val coupons: CouponResponse,
-        val freeDelivery: FreeDeliveryResponse
-)
 

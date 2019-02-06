@@ -3,23 +3,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+
+    <group
+        android:id="@+id/main_section"
+        >
         <item
-            android:id="@id/instacartFragment"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="AlbumList" />
+            android:icon="@drawable/order_filled"
+            android:title="Your Orders" />
+        <item
+            android:icon="@drawable/star_filled"
+            android:title="Instacart Express" />
+
+        <item
+            android:icon="@drawable/ic__referral_ic_money"
+            android:title="Refer Friends" />
+    </group>
+
+    <group
+        android:id="@+id/promo_section"
+        >
+        <item
+            android:icon="@drawable/ticket_filled"
+            android:title="Add Promo Code" />
 
     </group>
 
-    <item android:title="Flutter">
-        <menu>
-            <item
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
+    <group
+        android:id="@+id/account_section"
+        >
+
+        <item
+            android:icon="@drawable/account_filled"
+            android:title="Your Account Settings" />
+        <item
+            android:icon="@drawable/help_filled"
+            android:title="Help" />
+        <item
+            android:title="         Version 5.14.3"/>
+    </group>
 
 </menu>

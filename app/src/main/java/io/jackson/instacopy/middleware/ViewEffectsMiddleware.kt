@@ -9,6 +9,15 @@ import io.jackson.instacopy.ViewEffect
 
 typealias ViewEffectsSubscriber = (ViewEffect) -> Unit
 
+/**
+ * Middleware that handles visual "side effects".  These are temporary effects on the UI that
+ * are not persisted in the app state, i.e. animations and transitions
+ * Listens to actions and dispatches "ViewEffects" to subscribers.
+ * Subscribe with:
+ *      ViewEffectsMiddleware.subscribeToViewEffects(this)
+ *
+ *  Must be unsubscribed to avoid leaks.
+ */
 object ViewEffectsMiddleware : Middleware<AppState> {
     private val viewEffectsSubscribers = mutableSetOf<ViewEffectsSubscriber>()
 

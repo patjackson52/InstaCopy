@@ -5,19 +5,13 @@ import io.jackson.instacopy.repo.Item
 import io.jackson.instacopy.repo.Item.Companion.PLACE_HOLDER_ID
 
 
-data class InstacartViewModel(val storeHeaderViewModel: StoreHeaderViewModel)
-
 data class StoreHeaderViewModel(val title: String,
                                 val subTitle: String,
                                 val imageUrl: String,
                                 val bckgrndImageUrl: String,
                                 val withInTime: String,
                                 val moreInfoString: String,
-                                val searchText: String) {
-    companion object {
-        val PLACE_HOLDER = StoreHeaderViewModel("", "", "", "", "", "", "")
-    }
-}
+                                val searchText: String)
 
 
 data class InfoCardViewModel(val bckgrndImageUrl: String,

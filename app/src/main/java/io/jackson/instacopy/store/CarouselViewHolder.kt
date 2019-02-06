@@ -13,23 +13,6 @@ import io.jackson.instacopy.middleware.ViewEffectsMiddleware
 
 class CarouselViewHolder(view: View) : BindingViewHolderWithAdapter<ItemCarouselViewModel>(view) {
 
-
-
-    private fun viewEffectsSubscriber(viewEffect: ViewEffect): Unit {
-        when (viewEffect) {
-            is ShowPickerViewEffect ->
-                itemView.carouselRecyclerView.adapter?.notifyItemChanged(getPositionForItem(viewEffect.itemId), viewEffect)
-        }
-
-    }
-    fun getPositionForItem(itemId: String): Int {
-        return (itemView.carouselRecyclerView.adapter as CarouselItemAdapter).data.indexOfFirst { it.item.id == itemId }
-    }
-
-    fun detachedFromWindow() {
-        ViewEffectsMiddleware.unsubscribe(this::viewEffectsSubscriber)
-    }
-
     override fun bindViews(data: ItemCarouselViewModel, cachedAdapter: RecyclerView.Adapter<*>?) {
         ViewEffectsMiddleware.subscribeToViewEffects(this::viewEffectsSubscriber)
         itemView.txtCarouselTitle.text = data.title
@@ -52,5 +35,18 @@ class CarouselViewHolder(view: View) : BindingViewHolderWithAdapter<ItemCarousel
         }
     }
 
+    private fun viewEffectsSubscriber(viewEffect: ViewEffect): Unit {
+        when (viewEffect) {
+            is ShowPickerViewEffect ->
+                itemView.carouselRecyclerView.adapter?.notifyItemChanged(getPositionForItem(viewEffect.itemId), viewEffect)
+        }
 
+    }
+    private fun getPositionForItem(itemId: String): Int {
+        return (itemView.carouselRecyclerView.adapter as CarouselItemAdapter).data.indexOfFirst { it.item.id == itemId }
+    }
+
+    fun detachedFromWindow() {
+        ViewEffectsMiddleware.unsubscribe(this::viewEffectsSubscriber)
+    }
 }
