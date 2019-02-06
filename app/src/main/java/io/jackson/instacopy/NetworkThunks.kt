@@ -5,6 +5,10 @@ import io.jackson.instacopy.repo.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
+/**
+ * Thunks are functions that are executed by the "ThunkMiddleware".  They are asynchronous and dispatch
+ * actions.  This allows dispatching a loading, success, and failure state.
+ */
 object NetworkThunks : CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main

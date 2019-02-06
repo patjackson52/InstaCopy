@@ -22,43 +22,6 @@ object RetrofitStoreRepository : StoreRepository {
         }
     }
 
-    override fun suggestions(storeId: String): GatewayResponse<ItemsResponse, GenericError> {
-        val response = api.suggestions(storeId).execute()
-        return if (response.isSuccessful) {
-            GatewayResponse.createSuccess(response.body(), response.code(), response.message())
-        } else {
-            GatewayResponse.createError(GenericError(response.message()), response.code(), response.message())
-        }
-    }
-
-    override fun freeDeliveries(storeId: String): GatewayResponse<FreeDeliveryResponse, GenericError> {
-        val response = api.freeDelivery(storeId).execute()
-        return if (response.isSuccessful) {
-            GatewayResponse.createSuccess(response.body(), response.code(), response.message())
-        } else {
-            GatewayResponse.createError(GenericError(response.message()), response.code(), response.message())
-        }
-    }
-
-    override fun brandItems(storeId: String): GatewayResponse<ItemsResponse, GenericError> {
-        val response = api.brandItems(storeId).execute()
-        return if (response.isSuccessful) {
-            GatewayResponse.createSuccess(response.body(), response.code(), response.message())
-        } else {
-            GatewayResponse.createError(GenericError(response.message()), response.code(), response.message())
-        }
-    }
-
-    override fun coupons(storeId: String): GatewayResponse<CouponResponse, GenericError> {
-        val response = api.coupons(storeId).execute()
-        return if (response.isSuccessful) {
-            GatewayResponse.createSuccess(response.body(), response.code(), response.message())
-        } else {
-            GatewayResponse.createError(GenericError(response.message()), response.code(), response.message())
-        }
-
-    }
-
     override fun storeFeed(storeId: String): GatewayResponse<Map<String, FeedType>, GenericError> {
         val response = api.storeFeed(storeId).execute()
         return if (response.isSuccessful) {
@@ -67,7 +30,6 @@ object RetrofitStoreRepository : StoreRepository {
             GatewayResponse.createError(GenericError(response.message()), response.code(), response.message())
         }
     }
-
 
     private val okClient = OkHttpClient.Builder()
             .addNetworkInterceptor(HttpLoggingInterceptor()

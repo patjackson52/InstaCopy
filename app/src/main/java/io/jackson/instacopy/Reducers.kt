@@ -4,29 +4,6 @@ import com.beyondeye.reduks.ReducerFn
 
 val reducer = ReducerFn<AppState> { state, action ->
     when (action) {
-        is Actions.FetchStoreInfoSuccessAction -> {
-            state.copy(storeInfoResponse = action.storeInfoResponse)
-        }
-        is Actions.FetchCouponsSuccessAction -> {
-            val newListData = state.listData.toMutableList()
-            newListData[1] = action.response
-            state.copy(listData = newListData)
-        }
-        is Actions.FetchSuggestionsSuccessAction -> {
-            val newListData = state.listData.toMutableList()
-            newListData[2] = action.suggestions
-            state.copy(listData = newListData)
-        }
-        is Actions.FetchFreeDeliveriesSuccess -> {
-            val newListData = state.listData.toMutableList()
-            newListData[3] = action.response
-            state.copy(listData = newListData)
-        }
-        is Actions.FetchBrandItemsSuccessAction -> {
-            val newListData = state.listData.toMutableList()
-            newListData[4] = action.response
-            state.copy(listData = newListData)
-        }
         is Actions.FetchStoreFeedSuccessAction -> {
             state.copy(listData = action.response.values.toList(),
                     loadingStoreFeed = false)
@@ -36,7 +13,9 @@ val reducer = ReducerFn<AppState> { state, action ->
                     loadingStoreInfo = true)
         }
         is Actions.AddToCartAction -> incrementCartForItem(state, action.itemId)
+
         is Actions.OpenQuantityPickerAction -> incrementCartForItem(state, action.itemId)
+
         is Actions.RemoveFromCartAction -> {
             val items = if (state.cart.items.containsKey(action.itemId) && state.cart.items[action.itemId]!! > 0) {
                 state.cart.items.plus(Pair(action.itemId, state.cart.items[action.itemId]!! - 1))

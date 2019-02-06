@@ -34,7 +34,7 @@ class ExampleUnitTest {
     fun deserializePolymorphicJson() {
         val type = Types.newParameterizedType(Map::class.java, String::class.java, Any::class.java)
 
-        val jsonAdaper = RetrofitStoreRepository.moshi.adapter<Map<String, Object>>(type)
+        val jsonAdaper = RetrofitStoreRepository.moshi.adapter<Map<String, Any>>(type)
         val result = jsonAdaper.fromJson(polymorphicJson)
 
         assertNotNull(result)
