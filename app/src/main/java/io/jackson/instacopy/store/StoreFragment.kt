@@ -87,6 +87,11 @@ class StoreFragment : Fragment(), CoroutineScope, StoreSubscriber<AppState> {
                 activity?.btnCartQuantity!!.visibility = View.GONE
                 activity?.btnTopCartQuantity!!.visibility = View.GONE
             }
+            if (appStore.state.loadingStoreFeed || appStore.state.loadingStoreInfo) {
+                activity?.loading_spinner?.visibility = View.VISIBLE
+            } else {
+                activity?.loading_spinner?.visibility = View.GONE
+            }
         }
     }
 
