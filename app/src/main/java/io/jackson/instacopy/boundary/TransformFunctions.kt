@@ -5,19 +5,19 @@ import io.jackson.instacopy.R
 import io.jackson.instacopy.repo.*
 import io.jackson.instacopy.store.*
 
-fun List<FeedType>.toViewModels(cart: Cart, loadingStoreInfo: StoreInfoResponse): List<Any> {
-    return listOf(loadingStoreInfo.toViewModel()).plus(this.map {
+fun List<FeedType>.toViewState(cart: Cart, loadingStoreInfo: StoreInfoResponse): List<Any> {
+    return listOf(loadingStoreInfo.toViewState()).plus(this.map {
         when (it) {
-            is CouponResponse -> it.toViewModel()
-            is DeliveryOptionsResponse -> it.toViewModel()
-            is ItemsResponse -> it.toViewModel(cart)
-            is FreeDeliveryResponse -> it.toViewModel()
-            is NoResponse -> it.toViewModel()
+            is CouponResponse -> it.toViewState()
+            is DeliveryOptionsResponse -> it.toViewState()
+            is ItemsResponse -> it.toViewState(cart)
+            is FreeDeliveryResponse -> it.toViewState()
+            is NoResponse -> it.toViewState()
         }
     })
 }
 
-fun CouponResponse.toViewModel() = InfoCardViewModel(
+fun CouponResponse.toViewState() = InfoCardViewState(
         bckgrndImageUrl = bckgndImageUrl,
         infoIconImageUrl = infoIconImageUrl,
         title = title,
@@ -25,16 +25,16 @@ fun CouponResponse.toViewModel() = InfoCardViewModel(
         tintColor = R.color.infoCardYellow
 )
 
-fun DeliveryOptionsResponse.toViewModel() = DeliveryOptionViewModel(address, time)
+fun DeliveryOptionsResponse.toViewState() = DeliveryOptionViewState(address, time)
 
-fun FreeDeliveryResponse.toViewModel() = FreeDeliveryCardViewModel(
+fun FreeDeliveryResponse.toViewState() = FreeDeliveryCardViewState(
         bckgrndImageUrl = bckgndImageUrl,
         title = title,
         subTitle = subTitle,
         storeIcons = storeIcons
 )
 
-fun StoreInfoResponse.toViewModel() = StoreHeaderViewModel(
+fun StoreInfoResponse.toViewState() = StoreHeaderViewState(
         title = title,
         subTitle = subTitle,
         imageUrl = imageUrl,
@@ -44,9 +44,9 @@ fun StoreInfoResponse.toViewModel() = StoreHeaderViewModel(
         searchText = searchText
 )
 
-fun ItemsResponse.toViewModel(cart: Cart) = ItemCarouselViewModel(
+fun ItemsResponse.toViewState(cart: Cart) = ItemCarouselViewState(
         title = title,
-        items = items.map { ItemViewModel(cart.numInCart(it.id), it) }
+        items = items.map { ItemViewState(cart.numInCart(it.id), it) }
 )
 
-fun NoResponse.toViewModel() = testItemCarouselPlaceholder
+fun NoResponse.toViewState() = testItemCarouselPlaceholder

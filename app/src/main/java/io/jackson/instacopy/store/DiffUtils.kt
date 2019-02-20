@@ -24,7 +24,7 @@ class StoreDiffUtilCallback(private val oldItems: MutableList<Any>, private val 
     }
 }
 
-class ItemCarouselDiffUtilCallback(private val oldItems: MutableList<ItemViewModel>, private val newItems: MutableList<ItemViewModel>) : DiffUtil.Callback() {
+class ItemCarouselDiffUtilCallback(private val oldItems: MutableList<ItemViewState>, private val newItems: MutableList<ItemViewState>) : DiffUtil.Callback() {
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val areItemsTheSame = oldItems[oldItemPosition].item.id == newItems[newItemPosition].item.id
@@ -49,7 +49,7 @@ class ItemCarouselDiffUtilCallback(private val oldItems: MutableList<ItemViewMod
         }
     }
 
-    private fun isQuantityChanged(oldItem: ItemViewModel, newItem: ItemViewModel): Boolean {
+    private fun isQuantityChanged(oldItem: ItemViewState, newItem: ItemViewState): Boolean {
         return oldItem.numInCart != newItem.numInCart
     }
 }

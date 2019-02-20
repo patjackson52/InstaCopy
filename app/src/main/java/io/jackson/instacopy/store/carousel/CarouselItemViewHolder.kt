@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import io.jackson.instacopy.*
 import io.jackson.instacopy.repo.Item
 import io.jackson.instacopy.store.BindingPayloadViewHolder
-import io.jackson.instacopy.store.ItemViewModel
+import io.jackson.instacopy.store.ItemViewState
 import io.jackson.instacopy.ShowPickerViewEffect
 import kotlinx.android.synthetic.main.item_carousel_item.view.*
 import kotlinx.android.synthetic.main.quantity_picker.view.*
@@ -18,12 +18,12 @@ import kotlinx.android.synthetic.main.quantity_picker.view.*
 /**
  * Viewholder for individual item in a horizontal carousel of items
  */
-class CarouselItemViewHolder(view: View) : BindingPayloadViewHolder<ItemViewModel>(view) {
+class CarouselItemViewHolder(view: View) : BindingPayloadViewHolder<ItemViewState>(view) {
 
     private val orgPriceColor by lazy { ContextCompat.getColor(itemView.context, R.color.carouselItemQuantity) }
     private val discountPriceColor by lazy { ContextCompat.getColor(itemView.context, R.color.red) }
 
-    override fun bindViews(data: ItemViewModel, payloads: MutableList<Any>?) {
+    override fun bindViews(data: ItemViewState, payloads: MutableList<Any>?) {
         if (data.item.id == Item.PLACE_HOLDER_ID) return
 
         if (payloads?.find { it is ShowPickerViewEffect } != null) {
@@ -82,7 +82,7 @@ class CarouselItemViewHolder(view: View) : BindingPayloadViewHolder<ItemViewMode
         }
     }
 
-    private fun hideQuantityPicker(data: ItemViewModel) {
+    private fun hideQuantityPicker(data: ItemViewState) {
         itemView.layout_quantity_picker.visibility = View.GONE
         itemView.layout_fade.visibility = View.GONE
     }
@@ -99,7 +99,7 @@ class CarouselItemViewHolder(view: View) : BindingPayloadViewHolder<ItemViewMode
         }
     }
 
-    private fun setQuantityPickerData(data: ItemViewModel) {
+    private fun setQuantityPickerData(data: ItemViewState) {
         with(itemView) {
             itemView.txtQuantityPicker.text = data.numInCart.toString()
             btnPlus.setOnClickListener {

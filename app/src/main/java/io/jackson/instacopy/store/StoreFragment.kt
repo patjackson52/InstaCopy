@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.beyondeye.reduks.StoreSubscriber
 import com.beyondeye.reduks.StoreSubscription
 import io.jackson.instacopy.*
-import io.jackson.instacopy.boundary.toViewModels
+import io.jackson.instacopy.boundary.toViewState
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.search.*
@@ -77,7 +77,7 @@ class StoreFragment : Fragment(), CoroutineScope, StoreSubscriber<AppState> {
 
     override fun onStateChange() {
         activity?.runOnUiThread {
-            storeAdapter.setListData(appStore.state.listData.toViewModels(appStore.state.cart, appStore.state.storeInfoResponse).toMutableList())
+            storeAdapter.setListData(appStore.state.listData.toViewState(appStore.state.cart, appStore.state.storeInfoResponse).toMutableList())
             if (appStore.state.cart.totalNumItems() > 0) {
                 activity?.btnCartQuantity!!.visibility = View.VISIBLE
                 activity?.btnCartQuantity!!.text = appStore.state.cart.totalNumItems().toString()

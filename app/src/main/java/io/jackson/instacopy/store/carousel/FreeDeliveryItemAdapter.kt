@@ -3,12 +3,12 @@ package io.jackson.instacopy.store.carousel
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import io.jackson.instacopy.store.FreeDeliveryCardViewModel
+import io.jackson.instacopy.store.FreeDeliveryCardViewState
 import io.jackson.instacopy.R
 import java.lang.IllegalArgumentException
 
 class FreeDeliveryItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    lateinit var data: FreeDeliveryCardViewModel
+    lateinit var data: FreeDeliveryCardViewState
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)

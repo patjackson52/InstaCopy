@@ -126,14 +126,14 @@ object MockRepository : StoreRepository {
 */
 
 
-val testItemCarouselPlaceholder = ItemCarouselViewModel(
+val testItemCarouselPlaceholder = ItemCarouselViewState(
         title = "Based on your cart",
-        items = listOf(ItemViewModel.PLACE_HOLDER,
-                ItemViewModel.PLACE_HOLDER,
-                ItemViewModel.PLACE_HOLDER,
-                ItemViewModel.PLACE_HOLDER,
-                ItemViewModel.PLACE_HOLDER,
-                ItemViewModel.PLACE_HOLDER,
-                ItemViewModel.PLACE_HOLDER,
-                ItemViewModel.PLACE_HOLDER)
+        items = listOf(ItemViewState.PLACE_HOLDER,
+                ItemViewState.PLACE_HOLDER,
+                ItemViewState.PLACE_HOLDER,
+                ItemViewState.PLACE_HOLDER,
+                ItemViewState.PLACE_HOLDER,
+                ItemViewState.PLACE_HOLDER,
+                ItemViewState.PLACE_HOLDER,
+                ItemViewState.PLACE_HOLDER)
 )

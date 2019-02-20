@@ -8,18 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import io.jackson.instacopy.R
 import io.jackson.instacopy.repo.Item
 import io.jackson.instacopy.store.ItemCarouselDiffUtilCallback
-import io.jackson.instacopy.store.ItemViewModel
-import java.math.BigInteger
-import java.nio.charset.Charset
+import io.jackson.instacopy.store.ItemViewState
 
 class CarouselItemAdapter : RecyclerView.Adapter<CarouselItemViewHolder>() {
-    var data: MutableList<ItemViewModel> = mutableListOf()
+    var data: MutableList<ItemViewState> = mutableListOf()
 
     init {
         setHasStableIds(true)
     }
 
-    fun setItems(data: MutableList<ItemViewModel>) {
+    fun setItems(data: MutableList<ItemViewState>) {
         val diffResult = DiffUtil.calculateDiff(ItemCarouselDiffUtilCallback(this.data, data))
         diffResult.dispatchUpdatesTo(this)
         this.data = data

@@ -9,13 +9,13 @@ import com.bumptech.glide.request.transition.Transition
 import io.jackson.instacopy.GlideApp
 import io.jackson.instacopy.R
 import io.jackson.instacopy.store.BindingViewHolder
-import io.jackson.instacopy.store.FreeDeliveryCardViewModel
+import io.jackson.instacopy.store.FreeDeliveryCardViewState
 import kotlinx.android.synthetic.main.item_free_delivery_card.view.*
 
-class FreeDeliveryCardViewHolder(view: View) : BindingViewHolder<FreeDeliveryCardViewModel>(view) {
+class FreeDeliveryCardViewHolder(view: View) : BindingViewHolder<FreeDeliveryCardViewState>(view) {
     private val backgndTint by lazy { ContextCompat.getColor(itemView.context, R.color.infoCardBlue) }
 
-    override fun bindViews(data: FreeDeliveryCardViewModel) {
+    override fun bindViews(data: FreeDeliveryCardViewState) {
 
         with(data) {
             with(itemView) {

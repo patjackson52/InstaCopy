@@ -5,7 +5,7 @@ import io.jackson.instacopy.repo.Item
 import io.jackson.instacopy.repo.Item.Companion.PLACE_HOLDER_ID
 
 
-data class StoreHeaderViewModel(val title: String,
+data class StoreHeaderViewState(val title: String,
                                 val subTitle: String,
                                 val imageUrl: String,
                                 val bckgrndImageUrl: String,
@@ -13,18 +13,18 @@ data class StoreHeaderViewModel(val title: String,
                                 val moreInfoString: String,
                                 val searchText: String)
 
-data class DeliveryOptionViewModel(
+data class DeliveryOptionViewState(
         val address: String,
         val time: String
 )
 
-data class InfoCardViewModel(val bckgrndImageUrl: String,
+data class InfoCardViewState(val bckgrndImageUrl: String,
                              val infoIconImageUrl: String,
                              val title: String,
                              @ColorRes val tintColor: Int,
                              val subTitle: String)
 
-data class FreeDeliveryCardViewModel(val bckgrndImageUrl: String,
+data class FreeDeliveryCardViewState(val bckgrndImageUrl: String,
                                      val title: String,
                                      val subTitle: String,
                                      val storeIcons: List<StoreIcon>)
@@ -33,18 +33,18 @@ data class StoreIcon(val iconUrl: String,
                      val name: String)
 
 
-data class ItemViewModel(val numInCart: Int, val item: Item) {
+data class ItemViewState(val numInCart: Int, val item: Item) {
 
     companion object {
-        val PLACE_HOLDER = ItemViewModel(0,Item("", null, "", "", "", "", PLACE_HOLDER_ID))
+        val PLACE_HOLDER = ItemViewState(0,Item("", null, "", "", "", "", PLACE_HOLDER_ID))
     }
 }
 
-data class ItemCarouselViewModel(
+data class ItemCarouselViewState(
         val title: String,
-        val items: List<ItemViewModel>) : ListItemViewModel() {
+        val items: List<ItemViewState>) : ListItemViewState() {
     override fun areContentsTheSame(other: Any): Boolean {
-        if (other is ItemCarouselViewModel) {
+        if (other is ItemCarouselViewState) {
             items.forEachIndexed { index, item ->
                 if (item != other.items[index]) {
                     return false
@@ -55,7 +55,7 @@ data class ItemCarouselViewModel(
     }
 }
 
-open class ListItemViewModel {
+open class ListItemViewState {
     open fun areContentsTheSame(other: Any): Boolean {
         return this.equals(other)
     }

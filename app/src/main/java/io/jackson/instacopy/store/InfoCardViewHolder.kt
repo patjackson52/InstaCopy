@@ -8,10 +8,10 @@ import io.jackson.instacopy.R
 import io.jackson.instacopy.RoundedCornersTransformation
 import kotlinx.android.synthetic.main.item_info_card.view.*
 
-class InfoCardViewHolder(view: View) : BindingViewHolder<InfoCardViewModel>(view) {
+class InfoCardViewHolder(view: View) : BindingViewHolder<InfoCardViewState>(view) {
     private val roundedCornersDrawable by lazy { ContextCompat.getDrawable(itemView.context, R.drawable.rounded_outline_8dp) }
 
-    override fun bindViews(data: InfoCardViewModel) {
+    override fun bindViews(data: InfoCardViewState) {
         roundedCornersDrawable!!.setTint(ContextCompat.getColor(itemView.context, data.tintColor))
 
         with(data) {

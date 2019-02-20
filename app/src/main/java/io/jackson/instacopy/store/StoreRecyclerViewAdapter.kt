@@ -48,22 +48,22 @@ class StoreRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is HeaderViewHolder -> holder.bindViews(data[position] as StoreHeaderViewModel)
-            is DeliverySelectorHolder -> holder.bindViews(data[position] as DeliveryOptionViewModel)
-            is InfoCardViewHolder -> holder.bindViews(data[position] as InfoCardViewModel)
-            is CarouselViewHolder -> holder.bindViews(data[position] as ItemCarouselViewModel, getNestedAdapter(position))
-            is FreeDeliveryCardViewHolder -> holder.bindViews(data[position] as FreeDeliveryCardViewModel)
+            is HeaderViewHolder -> holder.bindViews(data[position] as StoreHeaderViewState)
+            is DeliverySelectorHolder -> holder.bindViews(data[position] as DeliveryOptionViewState)
+            is InfoCardViewHolder -> holder.bindViews(data[position] as InfoCardViewState)
+            is CarouselViewHolder -> holder.bindViews(data[position] as ItemCarouselViewState, getNestedAdapter(position))
+            is FreeDeliveryCardViewHolder -> holder.bindViews(data[position] as FreeDeliveryCardViewState)
         }
 //        setAnimation(holder.itemView, position)
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (data[position]) {
-            is StoreHeaderViewModel -> R.layout.item_store_header
-            is DeliveryOptionViewModel -> R.layout.item_delivery_selector
-            is InfoCardViewModel -> R.layout.item_info_card
-            is ItemCarouselViewModel -> R.layout.item_carousel
-            is FreeDeliveryCardViewModel -> R.layout.item_free_delivery_card
+            is StoreHeaderViewState -> R.layout.item_store_header
+            is DeliveryOptionViewState -> R.layout.item_delivery_selector
+            is InfoCardViewState -> R.layout.item_info_card
+            is ItemCarouselViewState -> R.layout.item_carousel
+            is FreeDeliveryCardViewState -> R.layout.item_free_delivery_card
             else -> throw AssertionError("type not specified")
         }
     }

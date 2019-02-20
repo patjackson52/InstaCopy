@@ -11,9 +11,9 @@ import io.jackson.instacopy.ViewEffect
 import io.jackson.instacopy.middleware.ViewEffectsMiddleware
 
 
-class CarouselViewHolder(view: View) : BindingViewHolderWithAdapter<ItemCarouselViewModel>(view) {
+class CarouselViewHolder(view: View) : BindingViewHolderWithAdapter<ItemCarouselViewState>(view) {
 
-    override fun bindViews(data: ItemCarouselViewModel, cachedAdapter: RecyclerView.Adapter<*>?) {
+    override fun bindViews(data: ItemCarouselViewState, cachedAdapter: RecyclerView.Adapter<*>?) {
         ViewEffectsMiddleware.subscribeToViewEffects(this::viewEffectsSubscriber)
         itemView.txtCarouselTitle.text = data.title
         itemView.carouselRecyclerView.apply {

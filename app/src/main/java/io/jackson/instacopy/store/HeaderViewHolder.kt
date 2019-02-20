@@ -6,9 +6,9 @@ import io.jackson.instacopy.GlideApp
 import kotlinx.android.synthetic.main.item_store_header.view.*
 import kotlinx.android.synthetic.main.search.view.*
 
-class HeaderViewHolder(view: View) : BindingViewHolder<StoreHeaderViewModel>(view) {
+class HeaderViewHolder(view: View) : BindingViewHolder<StoreHeaderViewState>(view) {
 
-    override fun bindViews(data: StoreHeaderViewModel) {
+    override fun bindViews(data: StoreHeaderViewState) {
         with(data) {
             with(itemView) {
                 txtStoreTitle.text = title
