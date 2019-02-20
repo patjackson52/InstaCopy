@@ -24,6 +24,7 @@ class StoreRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
         return when (viewType) {
             R.layout.item_store_header -> HeaderViewHolder(view)
+            R.layout.item_delivery_selector -> DeliverySelectorHolder(view)
             R.layout.item_info_card -> InfoCardViewHolder(view)
             R.layout.item_carousel -> CarouselViewHolder(view)
             R.layout.item_free_delivery_card -> FreeDeliveryCardViewHolder(view)
@@ -48,6 +49,7 @@ class StoreRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is HeaderViewHolder -> holder.bindViews(data[position] as StoreHeaderViewModel)
+            is DeliverySelectorHolder -> holder.bindViews(data[position] as DeliveryOptionViewModel)
             is InfoCardViewHolder -> holder.bindViews(data[position] as InfoCardViewModel)
             is CarouselViewHolder -> holder.bindViews(data[position] as ItemCarouselViewModel, getNestedAdapter(position))
             is FreeDeliveryCardViewHolder -> holder.bindViews(data[position] as FreeDeliveryCardViewModel)
@@ -58,6 +60,7 @@ class StoreRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
     override fun getItemViewType(position: Int): Int {
         return when (data[position]) {
             is StoreHeaderViewModel -> R.layout.item_store_header
+            is DeliveryOptionViewModel -> R.layout.item_delivery_selector
             is InfoCardViewModel -> R.layout.item_info_card
             is ItemCarouselViewModel -> R.layout.item_carousel
             is FreeDeliveryCardViewModel -> R.layout.item_free_delivery_card

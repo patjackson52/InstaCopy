@@ -9,6 +9,7 @@ fun List<FeedType>.toViewModels(cart: Cart, loadingStoreInfo: StoreInfoResponse)
     return listOf(loadingStoreInfo.toViewModel()).plus(this.map {
         when (it) {
             is CouponResponse -> it.toViewModel()
+            is DeliveryOptionsResponse -> it.toViewModel()
             is ItemsResponse -> it.toViewModel(cart)
             is FreeDeliveryResponse -> it.toViewModel()
             is NoResponse -> it.toViewModel()
@@ -24,6 +25,7 @@ fun CouponResponse.toViewModel() = InfoCardViewModel(
         tintColor = R.color.infoCardYellow
 )
 
+fun DeliveryOptionsResponse.toViewModel() = DeliveryOptionViewModel(address, time)
 
 fun FreeDeliveryResponse.toViewModel() = FreeDeliveryCardViewModel(
         bckgrndImageUrl = bckgndImageUrl,

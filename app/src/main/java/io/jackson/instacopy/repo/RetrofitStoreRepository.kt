@@ -37,6 +37,7 @@ object RetrofitStoreRepository : StoreRepository {
             .build()
 
     private val runtimeJsonAdapter = RuntimeJsonAdapterFactory(FeedType::class.java, "type")
+            .registerSubtype(DeliveryOptionsResponse::class.java, "delivery")
             .registerSubtype(ItemsResponse::class.java, "carousel")
             .registerSubtype(FreeDeliveryResponse::class.java, "freeDelivery")
             .registerSubtype(CouponResponse::class.java, "coupon")

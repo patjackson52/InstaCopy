@@ -14,6 +14,9 @@ sealed class FeedType
 data class ItemsResponse(val title: String,
                          val items: List<Item>): FeedType()
 
+data class DeliveryOptionsResponse(val address: String,
+                                   val time: String): FeedType()
+
 data class Item(val imageUrl: String,
                 val discountPrice: String? = null,
                 val priceOrg: String,

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:elevation="8dp">
+    android:layout_marginBottom="@dimen/card_spacing"
+    android:elevation="@dimen/card_elevation">
 
 
     <androidx.recyclerview.widget.RecyclerView

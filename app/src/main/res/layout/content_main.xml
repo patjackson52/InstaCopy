@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="66dp"
         android:background="@color/white"
-        android:elevation="8dp"
+        android:elevation="@dimen/card_elevation"
         app:itemIconTint="@color/ic_green"
         app:itemTextColor="@color/btm_nav_text_color_selector"
         app:labelVisibilityMode="labeled"

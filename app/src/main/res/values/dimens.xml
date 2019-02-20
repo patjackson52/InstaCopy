@@ -26,4 +26,9 @@
     <dimen name="placeholder_height">12dp</dimen>
 
     <dimen name="ic__core_height_toolbar_navigation">60.0dip</dimen>
+
+    <dimen name="delivery_option_btn_corner_radius">2dp</dimen>
+    <dimen name="delivery_option_btn_height">30dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
+    <dimen name="card_spacing">24dp</dimen>
 </resources>
