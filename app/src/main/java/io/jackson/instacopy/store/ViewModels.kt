@@ -13,6 +13,10 @@ data class StoreHeaderViewModel(val title: String,
                                 val moreInfoString: String,
                                 val searchText: String)
 
+data class DeliveryOptionViewModel(
+        val address: String,
+        val time: String
+)
 
 data class InfoCardViewModel(val bckgrndImageUrl: String,
                              val infoIconImageUrl: String,
