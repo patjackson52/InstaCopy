@@ -1,6 +1,7 @@
 package io.jackson.instacopy.store
 
 import androidx.recyclerview.widget.DiffUtil
+import io.jackson.common.ItemViewState
 import io.jackson.instacopy.store.carousel.CarouselItemChangePayload
 
 class StoreDiffUtilCallback(private val oldItems: MutableList<Any>, private val newItems: MutableList<Any>) : DiffUtil.Callback() {

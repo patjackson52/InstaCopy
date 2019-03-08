@@ -9,7 +9,7 @@ buildscript {
         maven { url 'https://dl.bintray.com/jetbrains/kotlin-native-dependencies' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0-alpha05'
+        classpath 'com.android.tools.build:gradle:3.5.0-alpha06'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion"
         // NOTE: Do not place your application dependencies here; they belong
@@ -23,7 +23,8 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url "https://jitpack.io" }
-
+        maven { url "https://kotlin.bintray.com/kotlinx" }
+        maven { url "https://dl.bintray.com/kotlin/ktor" }
     }
 }
 
@@ -36,7 +37,7 @@ ext {
     retrofitVersion = '2.5.0'
     okHttpVersion = '3.12.1'
     moshiKotlinVersion = '1.8.0'
-    coroutinesVersion = '1.0.0'
+    coroutinesVersion = '1.1.0'
     glideVersion = '4.8.0'
     stethoVersion = '1.5.0'
     ktxVersion = '1.0.0-beta01'

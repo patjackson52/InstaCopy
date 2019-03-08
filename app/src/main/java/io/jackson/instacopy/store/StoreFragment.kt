@@ -10,8 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.beyondeye.reduks.StoreSubscriber
 import com.beyondeye.reduks.StoreSubscription
+import io.jackson.common.AppState
+import io.jackson.common.NetworkThunks
+import io.jackson.common.appStore
+import io.jackson.common.boundary.toViewState
 import io.jackson.instacopy.*
-import io.jackson.instacopy.boundary.toViewState
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.search.*
@@ -42,7 +45,7 @@ class StoreFragment : Fragment(), CoroutineScope, StoreSubscriber<AppState> {
 
         subscription = appStore.subscribe(this)
 
-        appStore.dispatch(NetworkThunks.fetchStoreInfoAndFeed("sprouts"))
+        appStore.dispatch(NetworkThunks.fetchStoreInfoAndFeed("sprouts", Dispatchers.IO))
 
         (rootRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         rootRecyclerView.addOnScrollListener(

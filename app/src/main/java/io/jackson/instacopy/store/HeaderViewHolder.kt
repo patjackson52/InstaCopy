@@ -2,6 +2,7 @@ package io.jackson.instacopy.store
 
 import android.view.View
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import io.jackson.common.StoreHeaderViewState
 import io.jackson.instacopy.GlideApp
 import kotlinx.android.synthetic.main.item_store_header.view.*
 import kotlinx.android.synthetic.main.search.view.*

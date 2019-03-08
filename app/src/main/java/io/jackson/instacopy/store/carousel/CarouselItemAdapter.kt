@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import io.jackson.common.ItemViewState
 import io.jackson.instacopy.R
-import io.jackson.instacopy.repo.Item
+import io.jackson.common.repo.Item
 import io.jackson.instacopy.store.ItemCarouselDiffUtilCallback
-import io.jackson.instacopy.store.ItemViewState
 
 class CarouselItemAdapter : RecyclerView.Adapter<CarouselItemViewHolder>() {
     var data: MutableList<ItemViewState> = mutableListOf()

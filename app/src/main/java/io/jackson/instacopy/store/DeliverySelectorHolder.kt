@@ -1,6 +1,7 @@
 package io.jackson.instacopy.store
 
 import android.view.View
+import io.jackson.common.DeliveryOptionViewState
 import kotlinx.android.synthetic.main.item_delivery_selector.view.*
 
 class DeliverySelectorHolder(view: View): BindingViewHolder<DeliveryOptionViewState>(view) {

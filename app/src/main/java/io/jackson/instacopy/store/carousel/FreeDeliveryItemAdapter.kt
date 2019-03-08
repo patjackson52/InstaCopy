@@ -3,7 +3,7 @@ package io.jackson.instacopy.store.carousel
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import io.jackson.instacopy.store.FreeDeliveryCardViewState
+import io.jackson.common.FreeDeliveryCardViewState
 import io.jackson.instacopy.R
 import java.lang.IllegalArgumentException
 

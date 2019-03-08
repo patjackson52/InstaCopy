@@ -6,10 +6,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import io.jackson.common.FreeDeliveryCardViewState
 import io.jackson.instacopy.GlideApp
 import io.jackson.instacopy.R
 import io.jackson.instacopy.store.BindingViewHolder
-import io.jackson.instacopy.store.FreeDeliveryCardViewState
 import kotlinx.android.synthetic.main.item_free_delivery_card.view.*
 
 class FreeDeliveryCardViewHolder(view: View) : BindingViewHolder<FreeDeliveryCardViewState>(view) {

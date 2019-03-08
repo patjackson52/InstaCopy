@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import io.jackson.common.*
 import io.jackson.instacopy.*
 import io.jackson.instacopy.store.carousel.CarouselItemAdapter
 import io.jackson.instacopy.store.carousel.FreeDeliveryCardViewHolder

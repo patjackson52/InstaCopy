@@ -1,6 +1,7 @@
 package io.jackson.instacopy.repo
 
-import io.jackson.instacopy.store.*
+import io.jackson.common.ItemCarouselViewState
+import io.jackson.common.ItemViewState
 
 /*
 object MockRepository : StoreRepository {
@@ -126,14 +127,4 @@ object MockRepository : StoreRepository {
 */
 
 
-val testItemCarouselPlaceholder = ItemCarouselViewState(
-        title = "Based on your cart",
-        items = listOf(ItemViewState.PLACE_HOLDER,
-                ItemViewState.PLACE_HOLDER,
-                ItemViewState.PLACE_HOLDER,
-                ItemViewState.PLACE_HOLDER,
-                ItemViewState.PLACE_HOLDER,
-                ItemViewState.PLACE_HOLDER,
-                ItemViewState.PLACE_HOLDER,
-                ItemViewState.PLACE_HOLDER)
-)
+

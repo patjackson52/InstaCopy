@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlinx-serialization'
+
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -22,6 +24,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/*.kotlin_module'
+    }
 }
 
 dependencies {
@@ -38,21 +43,26 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     implementation "com.github.bumptech.glide:okhttp3-integration:$glideVersion"
 
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
-    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
+//    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+//    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+//    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+//    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
+
+    implementation "io.ktor:ktor-client-okhttp:$ktorVersion"
+    implementation "io.ktor:ktor-client-json-jvm:$ktorVersion"
+    implementation group: 'org.slf4j', name: 'slf4j-android', version: '1.7.26'
+
 //
     implementation networkDependencies.values()
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-    implementation "com.github.beyondeye.reduks:reduks-core:3.3.0"
+//    implementation "com.github.beyondeye.reduks:reduks-core:3.3.0"
+    implementation project(':common')
 
 
 
-
-    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.8.0'
+//    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.8.0'
     kapt 'com.github.bumptech.glide:compiler:4.8.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'

@@ -1,8 +1,8 @@
 package io.jackson.instacopy.store.carousel
 
 import android.view.View
+import io.jackson.common.FreeDeliveryCardViewState
 import io.jackson.instacopy.store.BindingViewHolder
-import io.jackson.instacopy.store.FreeDeliveryCardViewState
 import kotlinx.android.synthetic.main.item_free_delivery_title.view.*
 
 class FreeDeliveryTitleHolder(view: View) : BindingViewHolder<FreeDeliveryCardViewState>(view) {

@@ -6,11 +6,13 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
 import android.view.View
 import androidx.core.content.ContextCompat
+import io.jackson.common.Actions
+import io.jackson.common.ItemViewState
+import io.jackson.common.ShowPickerViewEffect
+import io.jackson.common.appStore
+import io.jackson.common.repo.Item
 import io.jackson.instacopy.*
-import io.jackson.instacopy.repo.Item
 import io.jackson.instacopy.store.BindingPayloadViewHolder
-import io.jackson.instacopy.store.ItemViewState
-import io.jackson.instacopy.ShowPickerViewEffect
 import kotlinx.android.synthetic.main.item_carousel_item.view.*
 import kotlinx.android.synthetic.main.quantity_picker.view.*
 
@@ -37,9 +39,9 @@ class CarouselItemViewHolder(view: View) : BindingPayloadViewHolder<ItemViewStat
                     .into(imgItem)
             if (data.item.discountPrice != null) {
                 val priceSpan = SpannableString(data.item.discountPrice + " " + data.item.priceOrg)
-                priceSpan.setSpan(StrikethroughSpan(), data.item.discountPrice.length + 1, priceSpan.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                priceSpan.setSpan(ForegroundColorSpan(orgPriceColor), data.item.discountPrice.length + 2, priceSpan.length - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                priceSpan.setSpan(ForegroundColorSpan(discountPriceColor), 0, data.item.discountPrice.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                priceSpan.setSpan(StrikethroughSpan(), data.item.discountPrice!!.length + 1, priceSpan.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                priceSpan.setSpan(ForegroundColorSpan(orgPriceColor), data.item.discountPrice!!.length + 2, priceSpan.length - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                priceSpan.setSpan(ForegroundColorSpan(discountPriceColor), 0, data.item.discountPrice!!.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
                 txtPrice.text = priceSpan
             } else {
                 txtPrice.text = data.item.priceOrg
