@@ -82,7 +82,6 @@ object KtorStoreRepository : StoreRepository {
 }
 
 
-@Serializable
 class Feed(val items: Map<String, FeedType>) {
 
     @Serializer(Feed::class)
@@ -101,7 +100,6 @@ class Feed(val items: Map<String, FeedType>) {
     }
 }
 
-@Serializable
 class FeedHolder(val type: String, val data: FeedType)
 
 class FeedHolderSerializer: KSerializer<FeedHolder> {

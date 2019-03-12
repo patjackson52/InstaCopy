@@ -27,6 +27,7 @@ android {
     packagingOptions {
         exclude 'META-INF/*.kotlin_module'
     }
+    tasks.lint.enabled = false
 }
 
 dependencies {
