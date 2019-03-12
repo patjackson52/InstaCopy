@@ -80,7 +80,7 @@ class StoreFragment : Fragment(), CoroutineScope, StoreSubscriber<AppState> {
 
     override fun onStateChange() {
         activity?.runOnUiThread {
-            storeAdapter.setListData(appStore.state.listData.toViewState(appStore.state.cart, appStore.state.storeInfoResponse).toMutableList())
+            storeAdapter.setListData(appStore.state.listData.toViewState(appStore.state.cart, appStore.state.storeInfoResponse, R.color.infoCardYellow).toMutableList())
             if (appStore.state.cart.totalNumItems() > 0) {
                 activity?.btnCartQuantity!!.visibility = View.VISIBLE
                 activity?.btnCartQuantity!!.text = appStore.state.cart.totalNumItems().toString()
