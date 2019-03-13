@@ -37,7 +37,7 @@ ext {
     retrofitVersion = '2.5.0'
     okHttpVersion = '3.12.1'
     moshiKotlinVersion = '1.8.0'
-    coroutinesVersion = '1.1.0'
+    coroutinesVersion = '1.1.1'
     glideVersion = '4.8.0'
     stethoVersion = '1.5.0'
     ktxVersion = '1.0.0-beta01'

@@ -12,41 +12,37 @@ import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
 import io.ktor.http.takeFrom
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.SerialClassDescImpl
 import kotlinx.serialization.internal.StringSerializer
 import kotlinx.serialization.json.Json
 
-object KtorStoreRepository : StoreRepository {
-    const val baseUrl = "https://jackson-ui-demos.firebaseio.com"
+class KtorStoreRepository : StoreRepository {
+    private val baseUrl = "https://jackson-ui-demos.firebaseio.com"
 
-    override suspend fun storeInfo(storeId: String): GatewayResponse<StoreInfoResponse, GenericError> {
-        return GlobalScope.async {
-
-            try {
-                val response: StoreInfoResponse = client.get {
-                    apiUrl("storesv2/$storeId/info.json")
-                }
-                GatewayResponse.createSuccess<StoreInfoResponse, GenericError>(response, 200, "Success")
-            } catch (e: Exception) {
-                GatewayResponse.createError<StoreInfoResponse, GenericError>(GenericError("test"), 200, "Success")
+    override suspend fun storeInfo(storeId: String, coroutineScope: CoroutineScope): GatewayResponse<StoreInfoResponse, GenericError> {
+        return try {
+            val response: StoreInfoResponse = client.get {
+                apiUrl("storesv2/$storeId/info.json")
             }
-        }.await()
+            GatewayResponse.createSuccess(response, 200, "Success")
+        } catch (e: Exception) {
+            GatewayResponse.createError(GenericError(e.message
+                    ?: "Failure"), 200, e.message ?: "failure")
+        }
     }
 
-    override suspend fun storeFeed(storeId: String): GatewayResponse<Map<String, FeedType>, GenericError> {
-        return GlobalScope.async {
-            try {
-                val response: Feed = client.get {
-                    apiUrl("/storesv3/$storeId/feed.json")
-                }
-                GatewayResponse.createSuccess<Map<String, FeedType>, GenericError>(response.items, 200, "sucess")
-            } catch (e: Exception) {
-                GatewayResponse.createError<Map<String, FeedType>, GenericError>(GenericError("error"), 500, "error message")
+    override suspend fun storeFeed(storeId: String, coroutineScope: CoroutineScope): GatewayResponse<Map<String, Any>, GenericError> {
+        return try {
+            val response: Feed = client.get {
+                apiUrl("/storesv3/$storeId/feed.json")
             }
-        }.await()
+            GatewayResponse.createSuccess(response.items, 200, "success")
+        } catch (e: Exception) {
+            GatewayResponse.createError(GenericError(e.message
+                    ?: "error"), 500, e?.message ?: "error message")
+        }
     }
 
     private val client by lazy {
@@ -82,7 +78,7 @@ object KtorStoreRepository : StoreRepository {
 }
 
 
-class Feed(val items: Map<String, FeedType>) {
+class Feed(val items: Map<String, Any>) {
 
     @Serializer(Feed::class)
     companion object : KSerializer<Feed> {
@@ -100,16 +96,16 @@ class Feed(val items: Map<String, FeedType>) {
     }
 }
 
-class FeedHolder(val type: String, val data: FeedType)
+class FeedHolder(val type: String, val data: Any)
 
-class FeedHolderSerializer: KSerializer<FeedHolder> {
+class FeedHolderSerializer : KSerializer<FeedHolder> {
 
     override val descriptor = object : SerialClassDescImpl("Inner") {
-            init {
-                addElement("atype")
-                addElement("data")
-            }
+        init {
+            addElement("atype")
+            addElement("data")
         }
+    }
 
     override fun deserialize(input: Decoder): FeedHolder {
         var fieldName: String? = null
@@ -148,7 +144,7 @@ class FeedHolderSerializer: KSerializer<FeedHolder> {
             }
             endStructure(descriptor)
         }
-        return FeedHolder(type = "test", data = value as FeedType)
+        return FeedHolder(type = "test", data = value as Any)
     }
 
     override fun serialize(encoder: Encoder, obj: FeedHolder) {

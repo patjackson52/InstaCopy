@@ -1,26 +1,27 @@
 package io.jackson.common.repo
 
 import io.jackson.common.StoreIcon
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.Optional
 import kotlinx.serialization.Serializable
 
 
 interface StoreRepository {
-    suspend fun storeInfo(storeId: String): GatewayResponse<StoreInfoResponse, GenericError>
-    suspend fun storeFeed(storeId: String): GatewayResponse<Map<String, FeedType>, GenericError>
+    suspend fun storeFeed(storeId: String, coroutineScope: CoroutineScope): GatewayResponse<Map<String, Any>, GenericError>
+    suspend fun storeInfo(storeId: String, coroutineScope: CoroutineScope): GatewayResponse<StoreInfoResponse, GenericError>
 }
 
 
-@Serializable
-sealed class FeedType
+//@Serializable
+//sealed class FeedType
 
 @Serializable
 data class ItemsResponse(val title: String,
-                         val items: List<Item>): FeedType()
+                         val items: List<Item>)
 
 @Serializable
 data class DeliveryOptionsResponse(val address: String,
-                                   val time: String): FeedType()
+                                   val time: String)
 
 @Serializable
 data class Item(val imageUrl: String,
@@ -43,7 +44,7 @@ data class FreeDeliveryResponse(
         val subTitle: String,
         val bckgndImageUrl: String,
         val storeIcons: List<StoreIcon>
-): FeedType()
+)
 
 @Serializable
 data class StoreInfoResponse(
@@ -66,8 +67,8 @@ data class CouponResponse(
         val subTitle: String,
         val bckgndImageUrl: String,
         val infoIconImageUrl: String
-): FeedType()
+)
 
-class NoResponse : FeedType()
+class NoResponse
 
 

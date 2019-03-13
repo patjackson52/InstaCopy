@@ -20,6 +20,7 @@ import org.junit.Test
  */
 class ExampleUnitTest {
     private val moshi = Moshi.Builder().build()
+    private val repo = KtorStoreRepository()
 
     @Test
     fun deserializeBrandItems() {
@@ -33,7 +34,7 @@ class ExampleUnitTest {
     fun retrofitRepoFetchesJson() {
         GlobalScope.launch {
             withContext(Dispatchers.Default) {
-                val response = KtorStoreRepository.storeInfo("sprouts")
+                val response = repo.storeInfo("sprouts", this)
                 assertNotNull(response)
             }
         }

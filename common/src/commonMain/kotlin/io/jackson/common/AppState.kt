@@ -4,17 +4,16 @@ import com.beyondeye.reduks.SimpleStore
 import com.beyondeye.reduks.middlewares.applyMiddleware
 import com.beyondeye.reduks.middlewares.thunkMiddleware
 import io.jackson.common.middleware.ViewEffectsMiddleware
-import io.jackson.common.repo.FeedType
 import io.jackson.common.repo.NoResponse
 import io.jackson.common.repo.StoreInfoResponse
 
-data class AppState(val listData: List<FeedType>,
+data class AppState(val listData: List<Any>,
                     val storeInfoResponse: StoreInfoResponse,
                     val loadingStoreInfo: Boolean,
                     val loadingStoreFeed: Boolean,
                     val cart: Cart) {
     companion object {
-        val INITIAL_STATE = AppState(listData = mutableListOf<FeedType>(
+        val INITIAL_STATE = AppState(listData = mutableListOf<Any>(
                 NoResponse(),
                 NoResponse(),
                 NoResponse(),
@@ -36,7 +35,6 @@ data class Cart(val items: Map<String, Int>) {
 
     fun numInCart(itemId: String): Int {
         return if (items.containsKey(itemId)) {
-            appStore.applyMiddleware()
             items.getValue(itemId)
         } else {
             0
@@ -56,5 +54,7 @@ data class Cart(val items: Map<String, Int>) {
 
 }
 
-val appStore = SimpleStore(AppState.INITIAL_STATE, reducer)
-        .applyMiddleware(::thunkMiddleware, ViewEffectsMiddleware::dispatch)
+val appStore by lazy {
+    SimpleStore(AppState.INITIAL_STATE, reducer)
+            .applyMiddleware(::thunkMiddleware, ViewEffectsMiddleware::dispatch)
+}

@@ -3,7 +3,7 @@ package io.jackson.common.boundary
 import io.jackson.common.*
 import io.jackson.common.repo.*
 
-fun List<FeedType>.toViewState(cart: Cart, loadingStoreInfo: StoreInfoResponse, tintColorRes: Int): List<Any> {
+fun List<Any>.toViewState(cart: Cart, loadingStoreInfo: StoreInfoResponse, tintColorRes: Int): List<Any> {
     return listOf(loadingStoreInfo.toViewState()).plus(this.map {
         when (it) {
             is CouponResponse -> it.toViewState(tintColorRes)
@@ -11,6 +11,7 @@ fun List<FeedType>.toViewState(cart: Cart, loadingStoreInfo: StoreInfoResponse, 
             is ItemsResponse -> it.toViewState(cart)
             is FreeDeliveryResponse -> it.toViewState()
             is NoResponse -> it.toViewState()
+            else -> TODO("Handle lack of sealed classes in kotlin native")
         }
     })
 }
