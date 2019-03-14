@@ -1,4 +1,0 @@
-#!/bin/bash
-export 'JAVA_HOME=/Users/patrickjackson/Library/Application Support/JetBrains/Toolbox/apps/AndroidStudio/ch-0/183.5256920/Android Studio 3.5 Preview.app/Contents/jre/jdk/Contents/Home/jre'
-cd '/Users/patrickjackson/workspace/InstaCopy'
-./gradlew $@
