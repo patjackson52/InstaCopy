@@ -45,7 +45,7 @@ class StoreFragment : Fragment(), CoroutineScope, StoreSubscriber<AppState> {
 
         subscription = appStore.subscribe(this)
 
-        appStore.dispatch(NetworkThunks(Dispatchers.IO).fetchStoreInfoAndFeed("sprouts", Dispatchers.IO))
+        appStore.dispatch(NetworkThunks(Dispatchers.IO).fetchStoreInfoAndFeed("sprouts"))
 
         (rootRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         rootRecyclerView.addOnScrollListener(
