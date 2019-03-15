@@ -17,6 +17,37 @@ class CarouselItemViewCell: UICollectionViewCell {
     @IBOutlet weak var discountLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var amountLabel: UILabel!
+    @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var quantityPicker: UIView!
+    
+    @IBAction func onTap(_ sender: Any) {
+        AppStateKt.appStore.dispatch(Actions.OpenQuantityPickerAction(itemId: item!.item.id))
+    }
+    
+    @IBAction func onAddTap(_ sender: Any) {
+        AppStateKt.appStore.dispatch(Actions.AddToCartAction(itemId: item!.item.id))
+    }
+    
+    @IBAction func onRemoveTap(_ sender: Any) {
+        AppStateKt.appStore.dispatch(Actions.RemoveFromCartAction(itemId: item!.item.id))
+    }
+
+    /*
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if (!cartButtons.isHidden) {
+        let touch = touches.first
+        guard let location = touch?.location(in: self.contentView) else { return }
+        if !cartButtons.frame.contains(location) {
+            print("Tapped outside the view")
+            DispatchQueue.main.async {
+                self.cartButtons.isHidden = true
+            }
+        }else {
+            print("Tapped inside the view")
+        }
+        }
+    }
+ */
     
     var item: ItemViewState? {
         didSet {
@@ -34,9 +65,15 @@ class CarouselItemViewCell: UICollectionViewCell {
     static var identifier: String {
         return "carouselItem"
     }
-   
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+    }
+    
+    public func showQuantityPicker() {
+        DispatchQueue.main.async {
+            self.quantityPicker.isHidden = false
+        }
     }
     
     func loadImage(url: URL) {

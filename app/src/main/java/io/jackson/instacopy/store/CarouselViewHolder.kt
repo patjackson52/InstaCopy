@@ -10,12 +10,13 @@ import io.jackson.common.ItemCarouselViewState
 import io.jackson.common.ShowPickerViewEffect
 import io.jackson.common.ViewEffect
 import io.jackson.common.middleware.ViewEffectsMiddleware
+import io.jackson.common.viewEffectsMiddleware
 
 
 class CarouselViewHolder(view: View) : BindingViewHolderWithAdapter<ItemCarouselViewState>(view) {
 
     override fun bindViews(data: ItemCarouselViewState, cachedAdapter: RecyclerView.Adapter<*>?) {
-        ViewEffectsMiddleware.subscribeToViewEffects(this::viewEffectsSubscriber)
+        viewEffectsMiddleware.subscribeToViewEffects(this::viewEffectsSubscriber)
         itemView.txtCarouselTitle.text = data.title
         itemView.carouselRecyclerView.apply {
             val animator = object : DefaultItemAnimator() {
@@ -48,6 +49,6 @@ class CarouselViewHolder(view: View) : BindingViewHolderWithAdapter<ItemCarousel
     }
 
     fun detachedFromWindow() {
-        ViewEffectsMiddleware.unsubscribe(this::viewEffectsSubscriber)
+        viewEffectsMiddleware.unsubscribe(this::viewEffectsSubscriber)
     }
 }

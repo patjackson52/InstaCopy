@@ -54,7 +54,8 @@ data class Cart(val items: Map<String, Int>) {
 
 }
 
+val viewEffectsMiddleware = ViewEffectsMiddleware()
 val appStore by lazy {
     SimpleStore(AppState.INITIAL_STATE, reducer)
-            .applyMiddleware(::thunkMiddleware, ViewEffectsMiddleware::dispatch)
+            .applyMiddleware(::thunkMiddleware, viewEffectsMiddleware::dispatch)
 }

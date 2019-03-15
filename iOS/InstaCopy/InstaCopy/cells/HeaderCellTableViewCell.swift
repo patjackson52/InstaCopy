@@ -11,7 +11,6 @@ import main
 
 class HeaderCellTableViewCell: UITableViewCell {
     
-    
     @IBOutlet weak var myImageView: UIImageView!
     
     var item: StoreHeaderViewState? {
@@ -20,14 +19,14 @@ class HeaderCellTableViewCell: UITableViewCell {
             if (url != nil) {
                 loadImage(url: url!)
             }
-            //            let url = item!.bckgrndImageUrl
-            //            myImageView?.image = UIImage(named: item!.bckgrndImageUrl)
         }
     }
     
     static var identifier: String {
         return "header"
     }
+    
+    var subscription: StoreSubscription?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -42,7 +41,6 @@ class HeaderCellTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
         myImageView?.image = nil
     }
     

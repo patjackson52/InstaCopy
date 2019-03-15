@@ -11,7 +11,7 @@ import UIKit
 import main
 
 class CarouselCell: UITableViewCell, UICollectionViewDataSource {
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return list!.items.count
     }
@@ -38,19 +38,33 @@ class CarouselCell: UITableViewCell, UICollectionViewDataSource {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        AppStateKt.viewEffectsMiddleware.subscribeToViewEffects(subscriber: viewEffectSubscriber)
+//        ViewEffectsMiddleware().subscribeToViewEffects(subscriber: {effect in return KotlinUnit()})
+
         contentView.backgroundColor = UIColor.green
         collectionView?.dataSource = self
         
+    }
+    
+    func viewEffectSubscriber(effect: ViewEffect) -> KotlinUnit {
+        if (effect is ShowPickerViewEffect) {
+            if let cell = collectionView.cellForItem(at: NSIndexPath(row: findIndexOf(itemId: (effect as? ShowPickerViewEffect)!.itemId) - 1, section: 0) as IndexPath) {
+                (cell as! CarouselItemViewCell).showQuantityPicker()
+            }
+
+        }
+        return KotlinUnit()
+    }
+    
+    private func findIndexOf(itemId: String) -> Int {
+        return list?.items.index(where: { $0.item.id == itemId }) ?? -1
     }
     
     static var nib:UINib {
         return UINib(nibName: identifier, bundle: nil)
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
+    deinit {
+        AppStateKt.viewEffectsMiddleware.unsubscribe(subscriber: viewEffectSubscriber)
     }
-    
-   
 }

@@ -11,6 +11,12 @@ import main
 
 class ViewController: UIViewController, UITableViewDataSource, StoreSubscriber {
     
+    @IBOutlet weak var cartBadge: BadgeSwift!
+    @IBOutlet weak var tableView: UITableView!
+
+    var subscription: StoreSubscription?
+    var items: [Any] = []
+
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -55,40 +61,26 @@ class ViewController: UIViewController, UITableViewDataSource, StoreSubscriber {
         return UITableViewCell()
     }
     
-    var items: [Any] = []
-    
     func onStateChange() {
         let state = AppStateKt.appStore.state as! AppState
-        
+        cartBadge.text = String(state.cart.totalNumItems())
         items = TransformFunctionsKt.toViewState(state.listData, cart: state.cart, loadingStoreInfo: state.storeInfoResponse, tintColorRes: 0)
+        
         tableView.reloadData()
-        
-        //        let url = URL(string: state.storeInfoResponse.bckgndImageUrl)!
-        //        let data = try? Data(contentsOf: url)
-        
-        
-        //        headerImage.image = UIImage(data: data)
-        //        state.listData
-        //        stateText.text = "here"
     }
-    
-    
-    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tableView?.dataSource = self
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 44
-        
-        //        tableView?.register(HeaderCellTableViewCell.nib, forCellReuseIdentifier: HeaderCellTableViewCell.identifier)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        AppStateKt.appStore.subscribe(storeSubscriber: self)
-        let x = AppStateKt.appStore.dispatch(NetworkThunks(uiContext: main.UI()).fetchStoreInfoAndFeed(storeId: "sprouts"))
-        
+        subscription = AppStateKt.appStore.subscribe(storeSubscriber: self)
+        AppStateKt.appStore.dispatch(NetworkThunks(uiContext: main.UI()).fetchStoreInfoAndFeed(storeId: "sprouts"))
+    }
+    
+    deinit {
+        subscription?.unsubscribe()
     }
 }
 

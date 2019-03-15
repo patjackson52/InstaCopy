@@ -2,6 +2,8 @@ package io.jackson.common
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Runnable
+import platform.Foundation.NSTimeInterval
+import platform.Foundation.NSTimer
 import platform.darwin.dispatch_async
 import platform.darwin.dispatch_get_main_queue
 import kotlin.coroutines.CoroutineContext

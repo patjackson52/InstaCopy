@@ -1,0 +1,6 @@
+framework module Pods_InstaCopyUITests {
+  umbrella header "Pods-InstaCopyUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
